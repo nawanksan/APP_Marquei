@@ -128,6 +128,195 @@ class MainApp extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Estatísticas do seu negócio',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF0D0D0D),
+                          fontWeight: FontWeight.w700,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                          width: double.infinity,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: const Color(0xFFE2E8F0),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color(0xFFE4EFFF),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: const Icon(
+                                        Icons.calendar_today_outlined,
+                                        color: Color(0xFF002AFF),
+                                        size: 20),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Agendamentos',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF0D0D0D),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        '17',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF002AFF),
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ]),
+                          )),
+                      const SizedBox(height: 10),
+                      Container(
+                          width: double.infinity,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: const Color(0xFFE2E8F0),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color(0xFFE4EFFF),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: const Icon(Icons.group_outlined,
+                                        color: Color(0xFF002AFF), size: 20),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Total de Clientes',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF0D0D0D),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        '74',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF002AFF),
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ]),
+                          )),
+                      const SizedBox(height: 10),
+                      Container(
+                          width: double.infinity,
+                          height: 65,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: const Color(0xFFE2E8F0),
+                              width: 1,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color(0xFFE4EFFF),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: const Icon(
+                                        Icons.attach_money_rounded,
+                                        color: Color(0xFF002AFF),
+                                        size: 20),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Faturamento',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Color(0xFF0D0D0D),
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      Text(
+                                        'R\$ 31.230,00',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF002AFF),
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ]),
+                          ))
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),
