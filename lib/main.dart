@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:marquei/widgets/bottom_bar.dart';
 
 void main() {
   runApp(const MainApp());
@@ -49,7 +51,10 @@ class MainApp extends StatelessWidget {
                                 color: const Color(0xFFE4EFFF),
                               ),
                               alignment: Alignment.center,
-                              child: const Text('MQ'),
+                              child: const Image(
+                                image: AssetImage('lib/assets/logo.png'),
+                                width: 20,
+                              ),
                             ),
                             const SizedBox(width: 10),
                             const Column(
@@ -99,9 +104,9 @@ class MainApp extends StatelessWidget {
                                     ),
                                   ),
                                   alignment: Alignment.center,
-                                  child: const Icon(
-                                    Icons.notifications_none_outlined,
-                                    size: 20,
+                                  child: SvgPicture.asset(
+                                    'lib/assets/icons/notify.svg',
+                                    width: 20,
                                   )),
                               const SizedBox(width: 10),
                               Container(
@@ -172,10 +177,12 @@ class MainApp extends StatelessWidget {
                                       color: const Color(0xFFE4EFFF),
                                     ),
                                     alignment: Alignment.center,
-                                    child: const Icon(
-                                        Icons.calendar_today_outlined,
-                                        color: Color(0xFF002AFF),
-                                        size: 20),
+                                    child: SvgPicture.asset(
+                                      'lib/assets/icons/calendar_heart.svg',
+                                      width: 20,
+                                      colorFilter: const ColorFilter.mode(
+                                          Color(0xFF002AFF), BlendMode.srcIn),
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Column(
@@ -193,7 +200,7 @@ class MainApp extends StatelessWidget {
                                       Text(
                                         '17',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF002AFF),
                                             fontWeight: FontWeight.w700),
                                       ),
@@ -228,8 +235,12 @@ class MainApp extends StatelessWidget {
                                       color: const Color(0xFFE4EFFF),
                                     ),
                                     alignment: Alignment.center,
-                                    child: const Icon(Icons.group_outlined,
-                                        color: Color(0xFF002AFF), size: 20),
+                                    child: SvgPicture.asset(
+                                      'lib/assets/icons/user_group.svg',
+                                      width: 20,
+                                      colorFilter: const ColorFilter.mode(
+                                          Color(0xFF002AFF), BlendMode.srcIn),
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Column(
@@ -247,7 +258,7 @@ class MainApp extends StatelessWidget {
                                       Text(
                                         '74',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF002AFF),
                                             fontWeight: FontWeight.w700),
                                       ),
@@ -282,10 +293,12 @@ class MainApp extends StatelessWidget {
                                       color: const Color(0xFFE4EFFF),
                                     ),
                                     alignment: Alignment.center,
-                                    child: const Icon(
-                                        Icons.attach_money_rounded,
-                                        color: Color(0xFF002AFF),
-                                        size: 20),
+                                    child: SvgPicture.asset(
+                                      'lib/assets/icons/money.svg',
+                                      width: 20,
+                                      colorFilter: const ColorFilter.mode(
+                                          Color(0xFF002AFF), BlendMode.srcIn),
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Column(
@@ -303,7 +316,7 @@ class MainApp extends StatelessWidget {
                                       Text(
                                         'R\$ 31.230,00',
                                         style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 18,
                                             color: Color(0xFF002AFF),
                                             fontWeight: FontWeight.w700),
                                       ),
@@ -320,52 +333,7 @@ class MainApp extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Início',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today_outlined),
-              label: 'Agenda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.grid_view_outlined),
-              label: 'Catálogo',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money_rounded),
-              label: 'Finanças',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz_outlined),
-              label: 'Mais',
-            ),
-          ],
-          selectedItemColor: const Color(0xFF0D0D0D),
-          selectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF0D0D0D),
-          ),
-          selectedIconTheme: const IconThemeData(
-            color: Color(0xFF002AFF),
-          ),
-          unselectedItemColor: const Color(0xFF718096),
-          unselectedLabelStyle: const TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF718096),
-          ),
-          unselectedIconTheme: const IconThemeData(
-            color: Color(0xFF718096),
-            size: 20,
-          ),
-          showUnselectedLabels: true,
-          enableFeedback: false,
-        ),
+        bottomNavigationBar: const BottomBar(),
       ),
     );
   }

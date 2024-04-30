@@ -1,4 +1,4 @@
-package com.example.marquei
+package app.marquei.profissional
 
 import io.flutter.embedding.android.FlutterActivity
 
