@@ -1,5 +1,6 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:marquei/src/login/presentation/widgets/input_decoration.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  bool queroEntrar = true;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -24,6 +24,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(
           Theme.of(context).textTheme,
@@ -96,6 +97,14 @@ class LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor insira seu e-mail';
+                            } else if (!emailRegExp.hasMatch(value)) {
+                              return 'Por favor, insira um e-mail válido';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 10,
@@ -110,7 +119,7 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
-                          obscureText: true,
+                          obscureText: false,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: getAuthenticationInputDecoration(""),
@@ -118,6 +127,12 @@ class LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor insira, insira sua senha';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(
                           height: 22.0,
@@ -138,7 +153,14 @@ class LoginPageState extends State<LoginPage> {
                                           BorderRadius.circular(5.0)))),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              realizarLogin(context);
+                              // Use Builder to get a valid context
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  realizarLogin(context);
+                                  return const SizedBox(); // Placeholder
+                                },
+                              );
                             }
                           },
                           child: const Text('Fazer Login'),
@@ -192,43 +214,52 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  realizarLogin(BuildContext context) async {
-    var url = Uri.parse('https://marquei-api.fly.dev/api/core/token/');
+  Future<void> realizarLogin(BuildContext context) async {
+    var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
 
     try {
+      // var formData = {
+      //   "email": _emailController.text,
+      //   "password": _passwordController.text,
+      // };
+
       var response = await http.post(
         url,
-        body: {
-          "password": _passwordController.text,
+        body: json.encode({
           "email": _emailController.text,
-        },
+          "password": _passwordController.text,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        }, 
       );
 
+      print(response.request);
+
       if (response.statusCode == 200) {
-        // Login bem-sucedido, você pode lidar com a resposta da API aqui
+        print('logado');
+        Navigator.pushNamed(context, '/home');
       } else {
-        // Login falhou
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.red,
-            content: Text('Dados Inválidos'),
-            behavior: SnackBarBehavior.floating,
-          ),
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Erro'),
+              content: const Text('Dados Inválidos'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
         );
       }
     } catch (error) {
-      // Erro de conexão ou outro erro
-    }
-  }
-
-  static void forgotPassword() async {
-    const url = 'https://www.globo.com';
-    try {
-      await launchUrl(Uri.parse(url));
-    } catch (error) {
-      // ignore: avoid_print
-      print('link inválido');
+      print('erro na API $error');
     }
   }
 }
