@@ -1,5 +1,6 @@
 import 'dart:convert';
-
+// ignore: depend_on_referenced_packages
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:marquei/src/login/presentation/widgets/input_decoration.dart';
@@ -129,7 +130,7 @@ class LoginPageState extends State<LoginPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Por favor insira, insira sua senha';
+                              return 'Por favor insira sua senha';
                             }
                             return null;
                           },
@@ -151,16 +152,30 @@ class LoginPageState extends State<LoginPage> {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(5.0)))),
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              // Use Builder to get a valid context
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  realizarLogin(context);
-                                  return const SizedBox(); // Placeholder
-                                },
-                              );
+                              bool deuCerto = await realizarLogin();
+                              if (deuCerto){
+                                Navigator.pushReplacementNamed(context, '/home');
+                              }else{
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Erro'),
+                                      content: const Text('Dados Inválidos'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('OK'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
                           },
                           child: const Text('Fazer Login'),
@@ -214,14 +229,11 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<void> realizarLogin(BuildContext context) async {
+  Future<bool> realizarLogin() async {
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+
     var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
 
-    try {
-      // var formData = {
-      //   "email": _emailController.text,
-      //   "password": _passwordController.text,
-      // };
 
       var response = await http.post(
         url,
@@ -231,35 +243,19 @@ class LoginPageState extends State<LoginPage> {
         }),
         headers: {
           'Content-Type': 'application/json',
-        }, 
+        },
       );
 
-      print(response.request);
+      // print(response.body);
 
       if (response.statusCode == 200) {
+        await _sharedPreferences.setString('token', "Bearer ${jsonDecode(response.body)['token']}");
+        
         print('logado');
-        Navigator.pushNamed(context, '/home');
+        return true;
       } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Erro'),
-              content: const Text('Dados Inválidos'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        print('dados invalidos');
+        return false;
       }
-    } catch (error) {
-      print('erro na API $error');
-    }
   }
 }
