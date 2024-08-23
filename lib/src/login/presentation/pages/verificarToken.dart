@@ -16,7 +16,7 @@ class _MyWidgetState extends State<Verificartoken> {
     super.initState();
     buscarToken().then((value){
       if (value){
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/menu');
       }else{
         Navigator.pushReplacementNamed(context, '/login');
       }

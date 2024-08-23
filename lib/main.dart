@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/login/presentation/pages/login_page.dart';
+import 'package:marquei/src/login/presentation/pages/page_menu.dart';
 import 'package:marquei/src/login/presentation/pages/verificarToken.dart';
 
 void main() {
@@ -24,6 +25,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/': (context) => const Verificartoken(),
         '/login' : (context) => const LoginPage(),
+        '/menu' : (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
       },
     );

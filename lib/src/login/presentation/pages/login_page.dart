@@ -156,7 +156,7 @@ class LoginPageState extends State<LoginPage> {
                             if (_formKey.currentState!.validate()) {
                               bool deuCerto = await realizarLogin();
                               if (deuCerto){
-                                Navigator.pushReplacementNamed(context, '/home');
+                                Navigator.pushReplacementNamed(context, '/menu');
                               }else{
                                 showDialog(
                                   context: context,
