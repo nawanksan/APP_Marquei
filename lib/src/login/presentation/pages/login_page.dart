@@ -22,6 +22,8 @@ class LoginPageState extends State<LoginPage> {
     r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
   );
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -78,7 +80,7 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   Form(
                     key: _formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    autovalidateMode: AutovalidateMode.disabled,
                     child: Column(
                       children: [
                         const Row(
@@ -120,7 +122,7 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
-                          obscureText: false,
+                          obscureText: true,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: getAuthenticationInputDecoration(""),
@@ -131,6 +133,8 @@ class LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor insira sua senha';
+                            }else if(value.length < 4){
+                              return 'A senha muito curta';
                             }
                             return null;
                           },
@@ -138,48 +142,53 @@ class LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 22.0,
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: const MaterialStatePropertyAll(
-                                  Color(0xFF0053CC)),
-                              foregroundColor:
-                                  const MaterialStatePropertyAll(Colors.white),
-                              minimumSize: const MaterialStatePropertyAll(
-                                Size(400, 45),
-                              ),
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(5.0)))),
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              bool deuCerto = await realizarLogin();
-                              if (deuCerto){
-                                Navigator.pushReplacementNamed(context, '/menu');
-                              }else{
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Erro'),
-                                      content: const Text('Dados Inválidos'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('OK'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
+                        _isLoading? CircularProgressIndicator(color: Color(0xFF0053CC),):
+                          ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: const MaterialStatePropertyAll(
+                                    Color(0xFF0053CC)),
+                                foregroundColor:
+                                    const MaterialStatePropertyAll(Colors.white),
+                                minimumSize: const MaterialStatePropertyAll(
+                                  Size(400, 45),
+                                ),
+                                shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)))),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                
+                                if(_formKey.currentState?.validate() ?? false) {
+                                  bool deuCerto = await realizarLogin();
+                                  if (deuCerto) {
+                                    Navigator.pushReplacementNamed(
+                                        context, '/menu');
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Erro'),
+                                          content: const Text('Dados Inválidos'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
-                                  },
-                                );
+                                  }
+                                }
                               }
-                            }
-                          },
-                          child: const Text('Fazer Login'),
-                        ),
+                            },
+                            child: const Text('Fazer Login'),
+                          ),
                         const Divider(
                           height: 40,
                           thickness: 1,
@@ -187,7 +196,7 @@ class LoginPageState extends State<LoginPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/home');
+                            Navigator.pushNamed(context, '/login');
                           },
                           child: const Text(
                             'Esqueci minha senha',
@@ -230,10 +239,14 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> realizarLogin() async {
-    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+      SharedPreferences _sharedPreferences =
+          await SharedPreferences.getInstance();
 
-    var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
+      setState(() {
+        _isLoading = true;
+      });
 
+      var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
 
       var response = await http.post(
         url,
@@ -250,12 +263,22 @@ class LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         await _sharedPreferences.setString('token', "Bearer ${jsonDecode(response.body)['token']}");
-        
+
+        setState(() {
+          _isLoading = false;
+        });
+
         print('logado');
         return true;
       } else {
+
+        setState(() {
+          _isLoading = false;
+        });
+
         print('dados invalidos');
         return false;
       }
+    
   }
 }

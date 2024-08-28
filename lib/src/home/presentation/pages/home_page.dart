@@ -19,6 +19,7 @@ class HomePageState extends State<HomePage> {
 
   Map<String, dynamic>? perfil;
 
+  @override
   void initState() {
     super.initState();
     getperfil();
@@ -142,20 +143,20 @@ class HomePageState extends State<HomePage> {
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: <Widget>[
                                                   Padding(
-                                                    padding: EdgeInsets.only(
+                                                    padding: const EdgeInsets.only(
                                                         bottom: 16.0),
                                                     child: Text(
                                                       '${perfil?['first_name']} ${perfil?['last_name']}',
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
                                                               FontWeight.bold,),
                                                     ),
                                                   ),
                                                   ListTile(
-                                                    leading: Icon(Icons.person),
+                                                    leading: const Icon(Icons.person),
                                                     title:
-                                                        Text('Configurações de conta', style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        const Text('Configurações de conta', style: TextStyle(fontWeight: FontWeight.bold),),
                                                     onTap: () {
                                                       // Ação para acessar o perfil
                                                       Navigator.pop(context);
@@ -163,8 +164,8 @@ class HomePageState extends State<HomePage> {
                                                     },
                                                   ),
                                                   ListTile(
-                                                    leading: Icon(Icons.help),
-                                                    title: Text('Fale conosco', style: TextStyle(fontWeight: FontWeight.bold),),
+                                                    leading: const Icon(Icons.help),
+                                                    title: const Text('Fale conosco', style: TextStyle(fontWeight: FontWeight.bold),),
                                                     onTap: () {
                                                       // Ação para acessar os pedidos
                                                       // Navigator.pop(context);
@@ -172,12 +173,13 @@ class HomePageState extends State<HomePage> {
                                                     },
                                                   ),
                                                   ListTile(
-                                                    leading: Icon(Icons.exit_to_app),
-                                                    title: Text('Sair', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+                                                    leading: const Icon(Icons.exit_to_app),
+                                                    title: const Text('Sair', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
                                                     onTap: () async{
                                                       bool saiu = await sair();
                                                       if (saiu) {
                                                         Navigator.pushNamedAndRemoveUntil(
+                                                            // ignore: use_build_context_synchronously
                                                             context, '/', (route) => false);
                                                       }
                                                     },
@@ -480,7 +482,7 @@ class HomePageState extends State<HomePage> {
                                             color: Color(0xFF0D0D0D),
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      const SizedBox(height: 10),
+                                      SizedBox(height: 10),
                                       Text(
                                         'Corte de Cabelo',
                                         style: TextStyle(
@@ -488,7 +490,7 @@ class HomePageState extends State<HomePage> {
                                             color: Color(0xFF002AFF),
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      const SizedBox(height: 10),
+                                      SizedBox(height: 10),
                                       Text(
                                         'Cliente: Kawan-san',
                                         style: TextStyle(
@@ -560,7 +562,7 @@ class HomePageState extends State<HomePage> {
                                             color: Color(0xFF0D0D0D),
                                             fontWeight: FontWeight.w600),
                                       ),
-                                      const SizedBox(height: 10),
+                                      SizedBox(height: 10),
                                       Text(
                                         'Barba',
                                         style: TextStyle(
@@ -568,7 +570,7 @@ class HomePageState extends State<HomePage> {
                                             color: Color(0xFF002AFF),
                                             fontWeight: FontWeight.w700),
                                       ),
-                                      const SizedBox(height: 10),
+                                      SizedBox(height: 10),
                                       Text(
                                         'Cliente: Houston barros',
                                         style: TextStyle(
@@ -598,7 +600,7 @@ class HomePageState extends State<HomePage> {
                         ),
                         textAlign: TextAlign.start,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -610,7 +612,7 @@ class HomePageState extends State<HomePage> {
                             border: Border.all(
                                 color: const Color(0xFFE2E8F0), width: 1)),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
                               Container(
@@ -654,7 +656,7 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -710,7 +712,7 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -771,7 +773,7 @@ class HomePageState extends State<HomePage> {
                       ),
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             'Últimas Atividades',
                             style: TextStyle(
                               fontSize: 15,
@@ -781,7 +783,7 @@ class HomePageState extends State<HomePage> {
                           ),
                           TextButton(
                               onPressed: () {},
-                              child: Text(
+                              child: const Text(
                                 'Ver mais',
                                 style: TextStyle(color: Color(0xFF002AFF)),
                               ))
@@ -840,7 +842,7 @@ class HomePageState extends State<HomePage> {
                               color: const Color(0xFFE2E8F0), width: 1),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children: [
                               Container(
