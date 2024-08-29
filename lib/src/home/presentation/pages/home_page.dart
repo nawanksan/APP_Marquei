@@ -104,7 +104,6 @@ class HomePageState extends State<HomePage> {
                                               color: Color(0xFF0D0D0D),
                                               fontWeight: FontWeight.w600),
                                         ),
-                                        // Colocar um seletor de "Hoje, Semana, Mês, Ano"
                                         Text(
                                           'Hoje',
                                           style: TextStyle(
@@ -715,7 +714,7 @@ class HomePageState extends State<HomePage> {
 
       var response = await http.get(
         url,
-        headers: headers, // Convertendo o corpo para JSON
+        headers: headers,
       );
 
       print("Response status: ${response.body}");
