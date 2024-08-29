@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:marquei/main.dart';
-import 'package:marquei/src/login/presentation/pages/login_page.dart';
+import 'package:marquei/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,199 +23,19 @@ class HomePageState extends State<HomePage> {
     getperfil();
   }
 
-  //codigo da pagina
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: const Color(0xFFF7FAFC),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80),
+        child: CustomAppBar(perfil: perfil, sair: sair),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: <Widget>[
-              Row(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 80,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Color(0xFFE2E8F0),
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: const Color(0xFFE4EFFF),
-                              ),
-                              alignment: Alignment.center,
-                              child: const Image(
-                                image: AssetImage('lib/assets/logo.png'),
-                                width: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Boas vindas,',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xFF718096),
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      '${perfil?['first_name']}',
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFF0D0D0D),
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      '${perfil?['last_name']}',
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFF718096),
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            )
-                          ]),
-                          Row(
-                            children: [
-                              Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: const Color(0xFFFFFFFF),
-                                    border: Border.all(
-                                      color: const Color(0xFFE2E8F0),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: SvgPicture.asset(
-                                    'lib/assets/icons/notify.svg',
-                                    width: 20,
-                                  )),
-                              const SizedBox(width: 10),
-                              Container(
-                                  width: 55,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: const Color(0xFFE4EFFF),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      showModalBottomSheet<void>(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return SizedBox(
-                                            height: 225,
-                                            child: Center(
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        bottom: 16.0),
-                                                    child: Text(
-                                                      '${perfil?['first_name']} ${perfil?['last_name']}',
-                                                      style: const TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                              FontWeight.bold,),
-                                                    ),
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(Icons.person),
-                                                    title:
-                                                        const Text('Configurações de conta', style: TextStyle(fontWeight: FontWeight.bold),),
-                                                    onTap: () {
-                                                      // Ação para acessar o perfil
-                                                      Navigator.pop(context);
-                                                      // Navegar para a tela de perfil
-                                                    },
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(Icons.help),
-                                                    title: const Text('Fale conosco', style: TextStyle(fontWeight: FontWeight.bold),),
-                                                    onTap: () {
-                                                      // Ação para acessar os pedidos
-                                                      // Navigator.pop(context);
-                                                      // Navegar para a tela de pedidos
-                                                    },
-                                                  ),
-                                                  ListTile(
-                                                    leading: const Icon(Icons.exit_to_app),
-                                                    title: const Text('Sair', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
-                                                    onTap: () async{
-                                                      bool saiu = await sair();
-                                                      if (saiu) {
-                                                        Navigator.pushNamedAndRemoveUntil(
-                                                            // ignore: use_build_context_synchronously
-                                                            context, '/', (route) => false);
-                                                      }
-                                                    },
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Text(
-                                      'HB',
-                                      style: TextStyle(
-                                          color: Color(0xFF2D3748),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  )),
-                              // Container(
-                              //   child: TextButton(
-                              //       onPressed: () async {
-                              //         bool saiu = await sair();
-                              //         if (saiu) {
-                              //           Navigator.pushNamedAndRemoveUntil(
-                              //               context, '/', (route) => false);
-                              //         }
-                              //       },
-                              //       child: Text('Sair')),
-                              // )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               const SizedBox(height: 30),
               SizedBox(
                 width: double.infinity,
@@ -239,124 +57,7 @@ class HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 20),
                       Container(
-                          width: double.infinity,
-                          height: 65,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xFFE2E8F0),
-                              width: 1,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color(0xFFE4EFFF),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: SvgPicture.asset(
-                                      'lib/assets/icons/calendar_heart.svg',
-                                      width: 20,
-                                      colorFilter: const ColorFilter.mode(
-                                          Color(0xFF002AFF), BlendMode.srcIn),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Agendamentos',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF0D0D0D),
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        '17',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF002AFF),
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ]),
-                          )),
-                      const SizedBox(height: 10),
-                      Container(
-                          width: double.infinity,
-                          height: 65,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xFFE2E8F0),
-                              width: 1,
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color(0xFFE4EFFF),
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: SvgPicture.asset(
-                                      'lib/assets/icons/user_group.svg',
-                                      width: 20,
-                                      colorFilter: const ColorFilter.mode(
-                                          Color(0xFF002AFF), BlendMode.srcIn),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Total de Clientes',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF0D0D0D),
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        '74',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF002AFF),
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ]),
-                          )),
-                      const SizedBox(height: 10),
-                      Container(
                         width: double.infinity,
-                        height: 65,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
@@ -366,57 +67,215 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    width: 40,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color(0xFFE4EFFF),
+                              Container(
+                                width: 45,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: const Color(0xFFE4EFFF),
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'lib/assets/icons/calendar_heart.svg',
+                                  width: 20,
+                                  colorFilter: const ColorFilter.mode(
+                                      Color(0xFF002AFF), BlendMode.srcIn),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Agendamentos',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF0D0D0D),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        // Colocar um seletor de "Hoje, Semana, Mês, Ano"
+                                        Text(
+                                          'Hoje',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF718096),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
                                     ),
-                                    alignment: Alignment.center,
-                                    child: SvgPicture.asset(
-                                      'lib/assets/icons/money.svg',
-                                      width: 20,
-                                      colorFilter: const ColorFilter.mode(
-                                          Color(0xFF002AFF), BlendMode.srcIn),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      '17',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF002AFF),
+                                          fontWeight: FontWeight.w800),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Faturamento',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF0D0D0D),
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        'R\$ 31.230,00',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF002AFF),
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 10),
-                      //PARTE QUE FICA OS AGENDAMENTOS
-
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: const Color(0xFFE2E8F0),
+                            width: 1,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 45,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: const Color(0xFFE4EFFF),
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'lib/assets/icons/user_group.svg',
+                                  width: 20,
+                                  colorFilter: const ColorFilter.mode(
+                                      Color(0xFF002AFF), BlendMode.srcIn),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Total de Clientes',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF0D0D0D),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          'Semana',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF718096),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      '74',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF002AFF),
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: const Color(0xFFE2E8F0),
+                            width: 1,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 45,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: const Color(0xFFE4EFFF),
+                                ),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset(
+                                  'lib/assets/icons/money.svg',
+                                  width: 20,
+                                  colorFilter: const ColorFilter.mode(
+                                      Color(0xFF002AFF), BlendMode.srcIn),
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Faturamento',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF0D0D0D),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Text(
+                                          'Ano',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF718096),
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      'R\$ 31.230,00',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFF002AFF),
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
                       const Text(
                         'Seus Próximos Agendamentos',
                         style: TextStyle(
@@ -431,7 +290,6 @@ class HomePageState extends State<HomePage> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 130,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
@@ -441,57 +299,95 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.all(20),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 80,
-                                    height: 80,
-                                    // decoration: BoxDecoration(
-                                    //   borderRadius: BorderRadius.circular(5),
-                                    //   color: const Color(0xFFE4EFFF),
-                                    // ),
                                     alignment: Alignment.center,
                                     child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           '27',
-                                          style: TextStyle(fontSize: 30),
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                         Text(
                                           'abr',
-                                          style: TextStyle(fontSize: 15),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w600,
+                                            height: 1,
+                                          ),
                                         )
                                       ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    width: 20,
                                   ),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Sábado, 27 de abr 2024 18:00hs',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF0D0D0D),
-                                            fontWeight: FontWeight.w600),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'De 10:00 às 11:00',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xFF0D0D0D),
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFE4EFFF),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  8, 3, 8, 3),
+                                              child: Text(
+                                                'Agendado',
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color(0xFF002AFF),
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
+                                      const SizedBox(height: 3),
+                                      const Text(
                                         'Corte de Cabelo',
                                         style: TextStyle(
                                             fontSize: 18,
-                                            color: Color(0xFF002AFF),
-                                            fontWeight: FontWeight.w700),
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w800),
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
+                                      const SizedBox(height: 3),
+                                      const Text(
                                         'Cliente: Kawan-san',
                                         style: TextStyle(
                                             fontSize: 12,
@@ -499,9 +395,30 @@ class HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.w600),
                                       )
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
+                              const Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'R\$ 30,00',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF000000),
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    'Dinheiro',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF718096),
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -511,7 +428,6 @@ class HomePageState extends State<HomePage> {
                       ),
                       Container(
                         width: double.infinity,
-                        height: 130,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(5),
@@ -521,78 +437,136 @@ class HomePageState extends State<HomePage> {
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.all(20),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    width: 80,
-                                    height: 80,
-                                    // decoration: BoxDecoration(
-                                    //   borderRadius: BorderRadius.circular(5),
-                                    //   color: const Color(0xFFE4EFFF),
-                                    // ),
                                     alignment: Alignment.center,
                                     child: const Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           '28',
-                                          style: TextStyle(fontSize: 30),
+                                          style: TextStyle(
+                                            fontSize: 24,
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                         Text(
                                           'abr',
-                                          style: TextStyle(fontSize: 15),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w600,
+                                            height: 1,
+                                          ),
                                         )
                                       ],
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 10,
+                                    width: 20,
                                   ),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        'Sábado, 28 de abr 2024 10:00hs',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF0D0D0D),
-                                            fontWeight: FontWeight.w600),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'De 10:00 às 11:00',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color(0xFF0D0D0D),
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              color: const Color(0xFFFFF3E4),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: const Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  8, 3, 8, 3),
+                                              child: Text(
+                                                'Pendente',
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Color.fromARGB(
+                                                        255, 255, 153, 0),
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        'Barba',
+                                      const SizedBox(height: 3),
+                                      const Text(
+                                        'Houston Barros',
                                         style: TextStyle(
                                             fontSize: 18,
-                                            color: Color(0xFF002AFF),
-                                            fontWeight: FontWeight.w700),
+                                            color: Color(0xFF000000),
+                                            fontWeight: FontWeight.w800),
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        'Cliente: Houston barros',
+                                      const SizedBox(height: 3),
+                                      const Text(
+                                        'Serviços selecionados: 3',
                                         style: TextStyle(
                                             fontSize: 12,
                                             color: Color(0xFF0D0D0D),
                                             fontWeight: FontWeight.w600),
                                       )
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
+                              const Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'R\$ 40,00',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color(0xFF000000),
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    'PIX',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF718096),
+                                        fontWeight: FontWeight.w600),
+                                  )
+                                ],
+                              )
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 30,
                       ),
-                      //PARTE QUE FICA OS MELHORES SERVIÇOS
-
                       const Text(
-                        'Melhores Serviços',
+                        'Atalhos',
                         style: TextStyle(
                           fontSize: 15,
                           color: Color(0xFF0D0D0D),
@@ -603,276 +577,115 @@ class HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        width: double.infinity,
-                        height: 65,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xFFE2E8F0), width: 1)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '13',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          color: Color(0xFF002AFF)),
-                                    ),
-                                  ],
-                                ),
-                                alignment: Alignment.center,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Corte de Cabelo',
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Mês passado: 13 agendamentos',
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 65,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xFFE2E8F0), width: 1)),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '9',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          color: Color(0xFF002AFF)),
-                                    ),
-                                  ],
-                                ),
-                                alignment: Alignment.center,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Barba',
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Mês passado: 9 agendamentos',
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 65,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: const Color(0xFFE2E8F0), width: 1)),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      '5',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          color: Color(0xFF002AFF)),
-                                    ),
-                                  ],
-                                ),
-                                alignment: Alignment.center,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Degradê',
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    'Mês passado: 5 agendamentos',
-                                    style: TextStyle(fontSize: 15),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Últimas Atividades',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Color(0xFF0D0D0D),
-                              fontWeight: FontWeight.w700,
+                          Expanded(
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFFFFFF),
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          color: const Color(0xFFE2E8F0),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: SvgPicture.asset(
+                                        'lib/assets/icons/box.svg',
+                                        width: 25,
+                                        // ignore: deprecated_member_use
+                                        color: const Color(0xFF002AFF),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Agendar',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF0D0D0D),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                          TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Ver mais',
-                                style: TextStyle(color: Color(0xFF002AFF)),
-                              ))
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: 40,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFFFFFF),
+                                        borderRadius: BorderRadius.circular(5),
+                                        border: Border.all(
+                                          color: const Color(0xFFE2E8F0),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: SvgPicture.asset(
+                                        'lib/assets/icons/box.svg',
+                                        width: 25,
+                                        // ignore: deprecated_member_use
+                                        color: const Color(0xFF002AFF),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    const Text(
+                                      'Agendar',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Color(0xFF0D0D0D),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                              color: const Color(0xFFE2E8F0), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                child: Icon(Icons.add_box),
-                                alignment: Alignment.center,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Novo Serviço criado: Barbearia'),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 65,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                              color: const Color(0xFFE2E8F0), width: 1),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                child: Icon(Icons.add_box),
-                                alignment: Alignment.center,
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Novo Serviço criado: Barbaterapia'),
-                                  Text('criado em 27/04/23 13:38')
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -904,6 +717,8 @@ class HomePageState extends State<HomePage> {
         url,
         headers: headers, // Convertendo o corpo para JSON
       );
+
+      print("Response status: ${response.body}");
 
       Map<String, dynamic> perfilMap = json.decode(response.body);
       setState(() {
