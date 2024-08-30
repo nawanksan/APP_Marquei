@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-class Verificartoken extends StatefulWidget {
-  const Verificartoken({super.key});
+class VerificarToken extends StatefulWidget {
+  const VerificarToken({super.key});
 
   @override
-  State<Verificartoken> createState() => _MyWidgetState();
+  State<VerificarToken> createState() => _VerificarTokenState();
 }
 
-class _MyWidgetState extends State<Verificartoken> {
-
+class _VerificarTokenState extends State<VerificarToken> {
   @override
   void initState() {
     super.initState();
-    buscarToken().then((value){
-      if (value){
-        Navigator.pushReplacementNamed(context, '/menu');
-      }else{
-        Navigator.pushReplacementNamed(context, '/login');
-      }
-    });
+    _verificarToken();
   }
 
   @override
@@ -32,13 +26,51 @@ class _MyWidgetState extends State<Verificartoken> {
     );
   }
 
+  Future<void> _verificarToken() async {
+    bool tokenExiste = await _buscarToken();
+    if (tokenExiste) {
+      await _getPerfil();
 
-  Future<bool> buscarToken() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    if(sharedPreferences.getString('token') != null){
-      return true;
-    }else{
-      return false;
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/menu');
+      }
+    } else {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
     }
+  }
+
+  Future<bool> _buscarToken() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString('token') != null;
+  }
+
+  Future<void> _getPerfil() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String? token = sharedPreferences.getString('token');
+    if (token != null) {
+      var url = Uri.https('marquei-api.fly.dev', '/api/professionals/me/');
+
+      Map<String, String> headers = {
+        'Authorization': token,
+      };
+
+      var response = await http.get(url, headers: headers);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> perfilMap = json.decode(response.body);
+        
+        await _saveUserProfile(perfilMap);
+      } else {
+        // Trate erros de resposta HTTP, se necessário.
+      }
+    }
+  }
+
+  Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String perfilJson = jsonEncode(perfilMap);
+    await prefs.setString('user_profile', perfilJson);
   }
 }

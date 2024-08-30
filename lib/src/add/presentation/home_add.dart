@@ -19,7 +19,7 @@ class TelaMaisStateState extends State<TelaMaisState> {
   @override
   void initState() {
     super.initState();
-    initUserProfile(); // Chamando o método assíncrono dentro do initState
+    initUserProfile();
   }
 
   Future<void> initUserProfile() async {

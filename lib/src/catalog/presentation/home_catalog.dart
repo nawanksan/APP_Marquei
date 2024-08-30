@@ -30,6 +30,7 @@ class CatalogScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
+                    fontFamily: 'Inter',
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -66,6 +67,7 @@ class CatalogScreen extends StatelessWidget {
                   color: Color(0xFF002AFF),
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
+                    fontFamily: 'Inter',
                 ))),
       ],
     );

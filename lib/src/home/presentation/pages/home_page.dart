@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:marquei/src/home/presentation/widgets/custom_statics.dart';
 import 'package:marquei/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +20,13 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getperfil();
+    initUserProfile();
+  }
+
+  
+  Future<void> initUserProfile() async {
+    perfil = await getUserProfile();
+    setState(() {}); // Atualiza o estado para refletir as mudanças
   }
 
   @override
@@ -56,223 +62,37 @@ class HomePageState extends State<HomePage> {
                         textAlign: TextAlign.start,
                       ),
                       const SizedBox(height: 20),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: const Color(0xFFE2E8F0),
-                            width: 1,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 45,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'lib/assets/icons/calendar_heart.svg',
-                                  width: 20,
-                                  colorFilter: const ColorFilter.mode(
-                                      Color(0xFF002AFF), BlendMode.srcIn),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Agendamentos',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF0D0D0D),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          'Hoje',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFF718096),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      '17',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xFF002AFF),
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      CustomStatics(
+                        iconPath: 'lib/assets/icons/calendar_heart.svg',
+                        text: 'Agendamentos',
+                        count: '12',
+                        date: 'Hoje',
+                        onTap: () => {
+                          // Ações para abrir a tela de agendamentos
+                          //...
+                        },
                       ),
                       const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: const Color(0xFFE2E8F0),
-                            width: 1,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 45,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'lib/assets/icons/user_group.svg',
-                                  width: 20,
-                                  colorFilter: const ColorFilter.mode(
-                                      Color(0xFF002AFF), BlendMode.srcIn),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Total de Clientes',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF0D0D0D),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          'Semana',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFF718096),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      '74',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xFF002AFF),
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      CustomStatics(
+                        iconPath: 'lib/assets/icons/user_group.svg',
+                        text: 'Total de Clientes',
+                        count: '74',
+                        date: 'Semana',
+                        onTap: () => {
+                          // Ações para abrir a tela de agendamentos
+                          //...
+                        },
                       ),
                       const SizedBox(height: 10),
-                      Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: const Color(0xFFE2E8F0),
-                            width: 1,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 45,
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color(0xFFE4EFFF),
-                                ),
-                                alignment: Alignment.center,
-                                child: SvgPicture.asset(
-                                  'lib/assets/icons/money.svg',
-                                  width: 20,
-                                  colorFilter: const ColorFilter.mode(
-                                      Color(0xFF002AFF), BlendMode.srcIn),
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Faturamento',
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF0D0D0D),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          'Ano',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Color(0xFF718096),
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      'R\$ 31.230,00',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Color(0xFF002AFF),
-                                          fontWeight: FontWeight.w800),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      CustomStatics(
+                        iconPath: 'lib/assets/icons/money.svg',
+                        text: 'Faturamento',
+                        count: 'R\$ 31.230,00',
+                        date: 'Ano',
+                        onTap: () => {
+                          // Ações para abrir a tela de agendamentos
+                          //...
+                        },
                       ),
                       const SizedBox(height: 30),
                       const Text(
@@ -702,42 +522,13 @@ class HomePageState extends State<HomePage> {
     return true;
   }
 
-  getperfil() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = sharedPreferences.getString('token');
-    if (token != null) {
-      var url = Uri.https('marquei-api.fly.dev', '/api/professionals/me/');
 
-      Map<String, String> headers = {
-        'Authorization': token,
-      };
-
-      var response = await http.get(
-        url,
-        headers: headers,
-      );
-
-      // print("Response status: ${response.body}");
-
-      Map<String, dynamic> perfilMap = json.decode(response.body);
-
-      await saveUserProfile(perfilMap);//enviando os dados do usuario pro shared
-
-
-      if(mounted){//verifique se o widget ainda está montado. Isso garante que o setState() só seja chamado se o widget ainda estiver na árvore de widgets.
-        setState(() {
-          perfil = perfilMap;
-        });
-      }
-    }
-  }
-
-
-  //salva os dados do usuario no shared para pegar de qualquer screen
-  Future<void> saveUserProfile(Map<String, dynamic> perfilMap) async {
+  getUserProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String perfilJson = jsonEncode(perfilMap);
-    await prefs.setString('user_profile', perfilJson);
+    String? perfilJson = prefs.getString('user_profile');
+    if (perfilJson != null) {
+      return jsonDecode(perfilJson);
+    }
+    return null;
   }
-
 }

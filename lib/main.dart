@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const Verificartoken(),
+        '/': (context) => const VerificarToken(),
         '/login': (context) => const LoginPage(),
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
