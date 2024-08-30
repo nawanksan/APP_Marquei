@@ -717,12 +717,27 @@ class HomePageState extends State<HomePage> {
         headers: headers,
       );
 
-      print("Response status: ${response.body}");
+      // print("Response status: ${response.body}");
 
       Map<String, dynamic> perfilMap = json.decode(response.body);
-      setState(() {
-        perfil = perfilMap;
-      });
+
+      await saveUserProfile(perfilMap);//enviando os dados do usuario pro shared
+
+
+      if(mounted){//verifique se o widget ainda está montado. Isso garante que o setState() só seja chamado se o widget ainda estiver na árvore de widgets.
+        setState(() {
+          perfil = perfilMap;
+        });
+      }
     }
   }
+
+
+  //salva os dados do usuario no shared para pegar de qualquer screen
+  Future<void> saveUserProfile(Map<String, dynamic> perfilMap) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String perfilJson = jsonEncode(perfilMap);
+    await prefs.setString('user_profile', perfilJson);
+  }
+
 }

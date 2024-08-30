@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:marquei/src/add/presentation/home_add.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/login/presentation/pages/login_page.dart';
@@ -29,6 +30,7 @@ class MainApp extends StatelessWidget {
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
         '/catalog-home': (context) => const CatalogScreen(),
+        '/Mais-home': (context) => const TelaMaisState(),
       },
     );
   }
