@@ -29,6 +29,7 @@ class MainApp extends StatelessWidget {
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
         '/catalog-home': (context) => const CatalogScreen(),
+        '/editar_servico:'(context) => const
       },
     );
   }
