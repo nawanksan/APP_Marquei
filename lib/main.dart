@@ -5,6 +5,7 @@ import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/login/presentation/pages/login_page.dart';
 import 'package:marquei/src/login/presentation/pages/page_menu.dart';
 import 'package:marquei/src/login/presentation/pages/verificarToken.dart';
+import 'package:marquei/src/scheduling/presentation/home_scheduling.dart';
 
 void main() {
   runApp(const MainApp());
@@ -29,6 +30,7 @@ class MainApp extends StatelessWidget {
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
         '/catalog-home': (context) => const CatalogScreen(),
+        '/scheduling-home': (context) => const HomeScheduling(),
       },
     );
   }

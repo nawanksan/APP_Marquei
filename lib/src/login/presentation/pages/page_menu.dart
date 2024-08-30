@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
+import 'package:marquei/src/scheduling/presentation/home_scheduling.dart';
 import 'package:marquei/widgets/bottom_bar.dart';
 
 class PageMenu extends StatefulWidget {
@@ -34,8 +35,9 @@ class _PageMenuState extends State<PageMenu> {
         onPageChanged: _onPageChanged,
         children: const <Widget>[
           HomePage(),
-          HomePage(),
+          HomeScheduling(),
           CatalogScreen(),
+          HomePage(),
         ],
       ),
       bottomNavigationBar: CustomBottomBar(
