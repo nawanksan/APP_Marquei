@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:marquei/src/add/presentation/home_add.dart';
+import 'package:marquei/src/finances/presentation/home_finan%C3%A7as.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/scheduling/presentation/home_scheduling.dart';
@@ -35,9 +37,10 @@ class _PageMenuState extends State<PageMenu> {
         onPageChanged: _onPageChanged,
         children: const <Widget>[
           HomePage(),
-          HomeScheduling(),
+          CalendarPage(),
           CatalogScreen(),
-          HomePage(),
+          TelaFinancas(),
+          TelaMaisState(),
         ],
       ),
       bottomNavigationBar: CustomBottomBar(
@@ -45,7 +48,7 @@ class _PageMenuState extends State<PageMenu> {
         onTap: (index) {
           _pageController.animateToPage(
             index,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 400),
             curve: Curves.easeInOut,
           );
         },
