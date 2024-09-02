@@ -142,7 +142,7 @@ class LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 22.0,
                         ),
-                        _isLoading? CircularProgressIndicator(color: Color(0xFF0053CC),):
+                        _isLoading? const CircularProgressIndicator(color: Color(0xFF0053CC),):
                           ElevatedButton(
                             style: ButtonStyle(
                                 backgroundColor: const MaterialStatePropertyAll(
@@ -239,8 +239,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> realizarLogin() async {
-      SharedPreferences _sharedPreferences =
-          await SharedPreferences.getInstance();
+      SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
 
       setState(() {
         _isLoading = true;
