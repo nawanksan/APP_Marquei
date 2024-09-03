@@ -3,45 +3,52 @@ import 'package:flutter/material.dart';
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
+  Future<void> _refresh(){
+    return Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7FAFC),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFF002AFF),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF7FAFC),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: const Color(0xFF002AFF),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Catálogo',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    fontFamily: 'Inter',
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Catálogo',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Inter',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                _buildSectionHeader('Categorias'),
-                const SizedBox(height: 8),
-                _buildCategoryList(),
-                const SizedBox(height: 20),
-                _buildSectionHeader('Serviços'),
-                const SizedBox(height: 8),
-                _buildServiceList(),
-              ],
+                  const SizedBox(height: 10),
+                  _buildSectionHeader('Categorias'),
+                  const SizedBox(height: 8),
+                  _buildCategoryList(),
+                  const SizedBox(height: 20),
+                  _buildSectionHeader('Serviços'),
+                  const SizedBox(height: 8),
+                  _buildServiceList(),
+                ],
+              ),
             ),
           ),
         ),
@@ -79,6 +86,7 @@ class CatalogScreen extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // ação ao apertar no primeiro card
+            
           },
           child: Container(
             padding: const EdgeInsets.symmetric(
@@ -167,7 +175,7 @@ class CatalogScreen extends StatelessWidget {
 
   Widget _buildServiceCard() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {print('teste');},
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(

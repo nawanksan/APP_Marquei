@@ -247,8 +247,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> realizarLogin() async {
-    SharedPreferences _sharedPreferences =
-        await SharedPreferences.getInstance();
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
 
     setState(() {
       _isLoading = true;

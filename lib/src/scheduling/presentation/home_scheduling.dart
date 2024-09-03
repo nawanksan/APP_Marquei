@@ -443,47 +443,54 @@ class _CalendarPageState extends State<CalendarPage> {
     });
   }
 
+  Future<void> _refresh(){
+    return Future.delayed(const Duration(seconds: 2));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF7FAFC),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: const Color(0xFF002AFF),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF7FAFC),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: const Color(0xFF002AFF),
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(0xFFe2e8f0),
-                    width: 1,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(0xFFe2e8f0),
+                      width: 1,
+                    ),
                   ),
                 ),
+                child: MonthSelectorWidget(
+                  onDateSelected: _onDateSelected,
+                ),
               ),
-              child: MonthSelectorWidget(
-                onDateSelected: _onDateSelected,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: filteredAppointments.length,
+                  itemBuilder: (context, index) {
+                    final appointment = filteredAppointments[index];
+                    return SchedulingCard(appointment: appointment);
+                  },
+                ),
               ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: filteredAppointments.length,
-                itemBuilder: (context, index) {
-                  final appointment = filteredAppointments[index];
-                  return SchedulingCard(appointment: appointment);
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
