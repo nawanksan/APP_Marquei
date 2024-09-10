@@ -73,10 +73,10 @@ class HomePageState extends State<HomePage> {
                             text: 'Agendamentos',
                             count: '12',
                             date: 'Hoje',
-                            onTap: () => {
-                              // Ações para abrir a tela de agendamentos
-                              //...
-                            },
+                            // onTap: () => {
+                            //   // Ações para abrir a tela de agendamentos
+                            //   print('apertou 3')
+                            // },
                           ),
                           const SizedBox(height: 10),
                           CustomStatics(
@@ -84,10 +84,10 @@ class HomePageState extends State<HomePage> {
                             text: 'Total de Clientes',
                             count: '74',
                             date: 'Semana',
-                            onTap: () => {
-                              // Ações para abrir a tela de agendamentos
-                              //...
-                            },
+                            // onTap: () => {
+                            //   // Ações para abrir a tela de agendamentos
+                            //   //...
+                            // },
                           ),
                           const SizedBox(height: 10),
                           CustomStatics(
@@ -95,10 +95,10 @@ class HomePageState extends State<HomePage> {
                             text: 'Faturamento',
                             count: 'R\$ 31.230,00',
                             date: 'Ano',
-                            onTap: () => {
-                              // Ações para abrir a tela de agendamentos
-                              //...
-                            },
+                            // onTap: () => {
+                            //   // Ações para abrir a tela de agendamentos
+                            //   //...
+                            // },
                           ),
                           const SizedBox(height: 30),
                           const Text(
@@ -113,276 +113,286 @@ class HomePageState extends State<HomePage> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                color: const Color(0xFFE2E8F0),
-                                width: 1,
+                          InkWell(
+                            onTap: (){
+                              print('apertou');
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: const Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: const Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '27',
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              Text(
+                                                'abr',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '27',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  'De 10:00 às 11:00',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFF0D0D0D),
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFFE4EFFF),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        8, 3, 8, 3),
+                                                    child: Text(
+                                                      'Agendado',
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Color(0xFF002AFF),
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              'abr',
+                                            const SizedBox(height: 3),
+                                            const Text(
+                                              'Kawan Nascimento',
                                               style: TextStyle(
-                                                fontSize: 16,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w600,
-                                                height: 1,
-                                              ),
+                                                  fontSize: 18,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            const SizedBox(height: 3),
+                                            const Text(  
+                                              'Serviços selecionados: 1',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xFF0D0D0D),
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                'De 10:00 às 11:00',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFF0D0D0D),
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: const Color(0xFFE4EFFF),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: const Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      8, 3, 8, 3),
-                                                  child: Text(
-                                                    'Agendado',
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Color(0xFF002AFF),
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 3),
-                                          const Text(
-                                            'Corte de Cabelo',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                          const SizedBox(height: 3),
-                                          const Text(
-                                            'Cliente: Kawan-san',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xFF0D0D0D),
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'R\$ 30,00',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF000000),
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      SizedBox(height: 3),
-                                      Text(
-                                        'Dinheiro',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF718096),
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  )
-                                ],
+                                      ],
+                                    ),
+                                    const Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'R\$ 30,00',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFF000000),
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                        SizedBox(height: 3),
+                                        Text(
+                                          'Dinheiro',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF718096),
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             height: 10,
                           ),
-                          Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              border: Border.all(
-                                color: const Color(0xFFE2E8F0),
-                                width: 1,
+                          InkWell(
+                            onTap: (){
+                              print('apertou 2');
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                  width: 1,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        child: const Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: const Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                '28',
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                              Text(
+                                                'abr',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              '28',
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                            Row(
+                                              children: [
+                                                const Text(
+                                                  'De 10:00 às 11:00',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Color(0xFF0D0D0D),
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFFFFF3E4),
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  child: const Padding(
+                                                    padding: EdgeInsets.fromLTRB(
+                                                        8, 3, 8, 3),
+                                                    child: Text(
+                                                      'Pendente',
+                                                      style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Color(0xFFFF9900),
+                                                          fontWeight:
+                                                              FontWeight.w700),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              'abr',
+                                            const SizedBox(height: 3),
+                                            const Text(
+                                              'Houston Barros',
                                               style: TextStyle(
-                                                fontSize: 16,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w600,
-                                                height: 1,
-                                              ),
+                                                  fontSize: 18,
+                                                  color: Color(0xFF000000),
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            const SizedBox(height: 3),
+                                            const Text(
+                                              'Serviços selecionados: 3',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Color(0xFF0D0D0D),
+                                                  fontWeight: FontWeight.w600),
                                             )
                                           ],
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                'De 10:00 às 11:00',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFF0D0D0D),
-                                                    fontWeight: FontWeight.w600),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  color: const Color(0xFFFFF3E4),
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: const Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      8, 3, 8, 3),
-                                                  child: Text(
-                                                    'Pendente',
-                                                    style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Color(0xFFFF9900),
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 3),
-                                          const Text(
-                                            'Houston Barros',
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color(0xFF000000),
-                                                fontWeight: FontWeight.w800),
-                                          ),
-                                          const SizedBox(height: 3),
-                                          const Text(
-                                            'Serviços selecionados: 3',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: Color(0xFF0D0D0D),
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        'R\$ 40,00',
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xFF000000),
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      SizedBox(height: 3),
-                                      Text(
-                                        'PIX',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Color(0xFF718096),
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  )
-                                ],
+                                      ],
+                                    ),
+                                    const Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'R\$ 40,00',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFF000000),
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                        SizedBox(height: 3),
+                                        Text(
+                                          'PIX',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xFF718096),
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

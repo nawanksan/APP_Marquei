@@ -202,7 +202,7 @@ class CustomAppBar extends StatelessWidget {
                                   const SizedBox(
                                     height: 20,
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () {
                                       Navigator.pop(context);
                                     },
@@ -231,7 +231,7 @@ class CustomAppBar extends StatelessWidget {
                                   const SizedBox(
                                     height: 30,
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () async {
                                       final Uri url = Uri.parse(
                                           'https://marquei.pro/ajuda');
@@ -271,7 +271,7 @@ class CustomAppBar extends StatelessWidget {
                                     height: 1,
                                     thickness: 1,
                                   ),
-                                  GestureDetector(
+                                  InkWell(
                                     onTap: () async {
                                       bool saiu = await sair();
                                       if (saiu) {

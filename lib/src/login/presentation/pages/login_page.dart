@@ -1,5 +1,7 @@
 import 'dart:convert';
 // ignore: depend_on_referenced_packages
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +19,7 @@ class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscurePassword = true;
 
   final RegExp emailRegExp = RegExp(
     r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$',
@@ -93,9 +96,10 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
+                          cursorColor: Color(0xFF002AFF),
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: getAuthenticationInputDecoration(''),
+                          decoration: getAuthenticationInputDecorationEmail(),
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -122,10 +126,13 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
-                          obscureText: true,
+                          cursorColor: Color(0xFF002AFF),
+                          
+                          obscureText: _obscurePassword,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
-                          decoration: getAuthenticationInputDecoration(""),
+                          decoration: getAuthenticationInputDecorationSenha(
+                              _obscurePassword, togglePasswordVisibility),
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -134,7 +141,7 @@ class LoginPageState extends State<LoginPage> {
                             if (value == null || value.isEmpty) {
                               return 'Por favor insira sua senha';
                             } else if (value.length < 4) {
-                              return 'A senha muito curta';
+                              return 'A senha é muito curta';
                             }
                             return null;
                           },
@@ -147,6 +154,7 @@ class LoginPageState extends State<LoginPage> {
                                 color: Color(0xFF0053CC),
                               )
                             : ElevatedButton(
+                                //DropdownButtonFormField
                                 style: ButtonStyle(
                                     backgroundColor:
                                         const MaterialStatePropertyAll(
@@ -164,34 +172,66 @@ class LoginPageState extends State<LoginPage> {
                                                 BorderRadius.circular(5.0)))),
                                 onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    if (_formKey.currentState?.validate() ??
-                                        false) {
-                                      bool deuCerto = await realizarLogin();
-                                      if (deuCerto) {
-                                        await _getPerfil();
+                                    bool deuCerto = await realizarLogin();
+                                    if (deuCerto) {
+                                      _getPerfil();
 
-                                        Navigator.pushReplacementNamed(
-                                            context, '/menu');
-                                      } else {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('Erro'),
-                                              content:
-                                                  const Text('Dados Inválidos'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('OK'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      }
+                                      Navigator.pushReplacementNamed(
+                                          context, '/menu');
+                                    } else {
+                                      showCupertinoDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return CupertinoAlertDialog(
+                                            title: const Text(
+                                              'Aviso',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,fontSize: 22),
+                                            ),
+                                            content: const Text(
+                                              'Dados Inválidos. Verifique os dados digitados.',
+                                              textAlign: TextAlign.center,style: TextStyle(fontSize: 17), // Centraliza o texto
+                                            ),
+                                            actions: <CupertinoDialogAction>[
+                                              CupertinoDialogAction(
+                                                onPressed: () {
+                                                  // Ação principal
+                                                  Navigator.of(context).pop();
+                                                },
+                                                // isDefaultAction: false,
+                                                child: const Text(
+                                                  'OK',
+                                                  style: TextStyle(
+                                                      color: Colors.blue,
+                                                      fontWeight:
+                                                          FontWeight.bold, fontSize: 20),
+                                                ), // Destaca o botão principal
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (BuildContext context) {
+                                      //     return AlertDialog(
+                                      //       backgroundColor: Colors.white,
+                                      //       title: const Text('Aviso', textAlign: TextAlign.center,),
+                                      //       content:
+                                      //           const Text('Dados Inválidos. Verifique os dados digitados.',textAlign: TextAlign.center,),
+                                      //       actions: <Widget>[
+                                      //         Center(
+                                      //           child: TextButton(
+                                      //             child: const Text('OK', style: TextStyle(color: Colors.blue),),
+                                      //             onPressed: () {
+                                      //               Navigator.of(context).pop();
+                                      //             },
+                                      //           ),
+                                      //         ),
+                                      //       ],
+                                      //     );
+                                      //   },
+                                      // );
                                     }
                                   }
                                 },
@@ -247,7 +287,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<bool> realizarLogin() async {
-    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences _sharedPreferences =
+        await SharedPreferences.getInstance();
 
     setState(() {
       _isLoading = true;
@@ -288,6 +329,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  //função que busca os dados do usuario na api pelo token
   Future<void> _getPerfil() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');
@@ -310,9 +352,17 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  //função para salvar os dados do usuário no shared preferences
   Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String perfilJson = jsonEncode(perfilMap);
     await prefs.setString('user_profile', perfilJson);
+  }
+
+  //função que alterna a visibilidade da senha
+  void togglePasswordVisibility() {
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
   }
 }
