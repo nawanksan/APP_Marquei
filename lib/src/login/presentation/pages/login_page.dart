@@ -345,7 +345,10 @@ class LoginPageState extends State<LoginPage> {
       if (response.statusCode == 200) {
         Map<String, dynamic> perfilMap = json.decode(response.body);
 
-        await _saveUserProfile(perfilMap);
+        String perfilJson = jsonEncode(perfilMap);
+        
+        await sharedPreferences.setString('user_profile', perfilJson);
+        // await _saveUserProfile(perfilMap);
       } else {
         // Trate erros de resposta HTTP, se necessário.
       }
@@ -353,11 +356,11 @@ class LoginPageState extends State<LoginPage> {
   }
 
   //função para salvar os dados do usuário no shared preferences
-  Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String perfilJson = jsonEncode(perfilMap);
-    await prefs.setString('user_profile', perfilJson);
-  }
+  // Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String perfilJson = jsonEncode(perfilMap);
+  //   await prefs.setString('user_profile', perfilJson);
+  // }
 
   //função que alterna a visibilidade da senha
   void togglePasswordVisibility() {
