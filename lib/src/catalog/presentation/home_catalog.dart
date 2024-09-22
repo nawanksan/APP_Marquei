@@ -40,7 +40,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
       if (response.statusCode == 200) {
         // Converte a resposta para um Map
         final responseBody = jsonDecode(response.body);
-        print(response.body);
+        // print(response.body);
         if(mounted){
           setState(() {
             // Acessa a lista de resultados dentro de 'results'
@@ -76,7 +76,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
       if (response.statusCode == 200) {
         // Converte a resposta para um Map
         final responseBody = jsonDecode(response.body);
-        print(response.body);
+        // print(response.body);
         if(mounted){
           setState(() {
             // Acessa a lista de resultados dentro de 'results'
@@ -120,7 +120,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
           ),
         ),
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator(color: const Color(0xFF002AFF),))
             : servicos != null
                 ? SingleChildScrollView(
                     child: SafeArea(
