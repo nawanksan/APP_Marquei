@@ -170,10 +170,10 @@ class LoginPageState extends State<LoginPage> {
                                             borderRadius:
                                                 BorderRadius.circular(5.0)))),
                                 onPressed: () async {
+                                  FocusScope.of(context).unfocus();
                                   if (_formKey.currentState!.validate()) {
                                     bool deuCerto = await realizarLogin();
                                     if (deuCerto) {
-                                      // _getPerfil();
 
                                       Navigator.pushReplacementNamed(
                                           context, '/menu');
@@ -329,7 +329,7 @@ class LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> perfilMap = json.decode(response.body);
-
+        print(perfilMap);
         String perfilJson = jsonEncode(perfilMap);
 
         await sharedPreferences.setString('user_profile', perfilJson);

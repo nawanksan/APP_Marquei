@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:marquei/src/home/presentation/widgets/custom_statics.dart';
 import 'package:marquei/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,6 +17,8 @@ class HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Map<String, dynamic>? perfil;
+  Map<String, dynamic>? estatisticas;
+  // String? token;  // Variável para armazenar as estatísticas
 
   @override
   void initState() {
@@ -25,9 +28,12 @@ class HomePageState extends State<HomePage> {
 
   Future<void> initUserProfile() async {
     perfil = await getUserProfile();
+    await fetchProfessionalStatistics(); 
+
     setState(() {}); // Atualiza o estado para refletir as mudanças
   }
 
+  // Recupera o perfil do SharedPreferences
   Future<Map<String, dynamic>?> getUserProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? perfilJson = prefs.getString('user_profile');
@@ -35,6 +41,40 @@ class HomePageState extends State<HomePage> {
       return jsonDecode(perfilJson);
     }
     return null;
+  }
+
+  // Busca as estatísticas do profissional
+  Future<void> fetchProfessionalStatistics() async {
+    String? token = await getToken(); // Função para recuperar o token
+
+    if (token != null) {
+      final url = Uri.parse(
+          'https://marquei-api.fly.dev/api/professionals/statistics/');
+
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        estatisticas = jsonDecode(response.body);
+        print('Estatísticas: $estatisticas');
+      } else {
+        print(
+            'Erro ao carregar as estatísticas. Status: ${response.statusCode}');
+        throw Exception('Erro ao carregar as estatísticas');
+      }
+    } else {
+      print('Token não encontrado');
+    }
+  }
+
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
   Future<void> _refresh() async {
@@ -45,6 +85,7 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: const Color(0xFF002AFF),
       onRefresh: _refresh,
       child: perfil == null
           ? const Center(
@@ -86,7 +127,7 @@ class HomePageState extends State<HomePage> {
                               CustomStatics(
                                 iconPath: 'lib/assets/icons/calendar_heart.svg',
                                 text: 'Agendamentos',
-                                count: '12',
+                                count: '${estatisticas?['schedules_today']}', //${estatisticas?['schedules_today']}
                                 date: 'Hoje',
                                 // onTap: () => {
                                 //   // Ações para abrir a tela de agendamentos
@@ -97,7 +138,7 @@ class HomePageState extends State<HomePage> {
                               CustomStatics(
                                 iconPath: 'lib/assets/icons/user_group.svg',
                                 text: 'Total de Clientes',
-                                count: '74',
+                                count: '${estatisticas?['clients']}', //${estatisticas?['clients']}
                                 date: 'Semana',
                                 // onTap: () => {
                                 //   // Ações para abrir a tela de agendamentos
@@ -108,7 +149,7 @@ class HomePageState extends State<HomePage> {
                               CustomStatics(
                                 iconPath: 'lib/assets/icons/money.svg',
                                 text: 'Faturamento',
-                                count: 'R\$ 31.230,00',
+                                count:'R\$ ${estatisticas?['invoicing']}', //${estatisticas?['invoicing']}
                                 date: 'Ano',
                                 // onTap: () => {
                                 //   // Ações para abrir a tela de agendamentos

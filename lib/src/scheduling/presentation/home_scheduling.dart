@@ -450,6 +450,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: const Color(0xFF002AFF),
       onRefresh: _refresh,
       child: Scaffold(
         backgroundColor: const Color(0xFFF7FAFC),
