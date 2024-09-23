@@ -563,13 +563,4 @@ class HomePageState extends State<HomePage> {
     await sharedPreferences.clear();
     return true;
   }
-
-  // getUserProfile() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? perfilJson = prefs.getString('user_profile');
-  //   if (perfilJson != null) {
-  //     return jsonDecode(perfilJson);
-  //   }
-  //   return null;
-  // }
 }
