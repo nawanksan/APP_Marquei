@@ -7,11 +7,11 @@ class CatalogScreen extends StatefulWidget {
   const CatalogScreen({super.key, perfil});
 
   @override
-  _CatalogScreenState createState() => _CatalogScreenState();
+  CatalogScreenState createState() => CatalogScreenState();
 }
 
-class _CatalogScreenState extends State<CatalogScreen> {
-  List<dynamic>? servicos; // Altere para lista de serviços
+class CatalogScreenState extends State<CatalogScreen> {
+  List<dynamic>? servicos;
   List<dynamic>? category;
   bool isLoading = true;
 
@@ -205,6 +205,8 @@ class _CatalogScreenState extends State<CatalogScreen> {
               ),
             ),
             width: double.infinity,
+            height: 60,
+            margin: const EdgeInsets.only(bottom: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -242,9 +244,11 @@ class _CatalogScreenState extends State<CatalogScreen> {
     return GestureDetector(
       onTap: () {
         print('Serviço selecionado: ${servico['name']}');
+        Navigator.pushNamed(context, '/ver_servico', arguments: servico);
       },
       child: Container(
         width: double.infinity,
+        margin: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(6)),
           color: Colors.white,
@@ -258,20 +262,22 @@ class _CatalogScreenState extends State<CatalogScreen> {
           children: [
             Container(
               width: double.infinity,
-              height: 150,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(5),
                   topRight: Radius.circular(5),
                 ),
                 image: DecorationImage(
-                  image: NetworkImage('https://via.placeholder.com/1280'),
+                  image: NetworkImage(
+                      'https://api.marquei.pro${servico['photo']}'),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             Container(
               width: double.infinity,
+              height: 150,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -285,6 +291,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     servico['name'],

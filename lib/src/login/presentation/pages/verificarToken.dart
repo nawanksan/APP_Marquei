@@ -55,7 +55,7 @@ class _VerificarTokenState extends State<VerificarToken> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');
     if (token != null) {
-      var url = Uri.https('marquei-api.fly.dev', '/api/professionals/me/');
+      var url = Uri.https('api.marquei.pro', '/api/professionals/me/');
 
       Map<String, String> headers = {
         'Authorization': token,

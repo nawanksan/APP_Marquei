@@ -149,7 +149,7 @@ class CustomAppBar extends StatelessWidget {
                                                       placeholder:
                                                           'assets/profile.png', // Caminho da imagem de placeholder
                                                       image:
-                                                          "https://marquei-api.fly.dev${perfil?['photo']}",
+                                                          "https://api.marquei.pro${perfil?['photo']}",
                                                       width: 40,
                                                       height: 40,
                                                       fit: BoxFit.cover,
@@ -318,7 +318,7 @@ class CustomAppBar extends StatelessWidget {
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(5),
                               child: Image.network(
-                                "https://marquei-api.fly.dev${perfil?['photo']}",
+                                "https://api.marquei.pro${perfil?['photo']}",
                                 width: 40,
                                 height: 40,
                                 fit: BoxFit.cover,
