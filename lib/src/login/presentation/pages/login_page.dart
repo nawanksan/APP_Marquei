@@ -127,7 +127,6 @@ class LoginPageState extends State<LoginPage> {
                         ),
                         TextFormField(
                           cursorColor: Color(0xFF002AFF),
-                          
                           obscureText: _obscurePassword,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
@@ -171,11 +170,10 @@ class LoginPageState extends State<LoginPage> {
                                             borderRadius:
                                                 BorderRadius.circular(5.0)))),
                                 onPressed: () async {
+                                  FocusScope.of(context).unfocus();
                                   if (_formKey.currentState!.validate()) {
                                     bool deuCerto = await realizarLogin();
                                     if (deuCerto) {
-                                      _getPerfil();
-
                                       Navigator.pushReplacementNamed(
                                           context, '/menu');
                                     } else {
@@ -186,11 +184,15 @@ class LoginPageState extends State<LoginPage> {
                                             title: const Text(
                                               'Aviso',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold,fontSize: 22),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 22),
                                             ),
                                             content: const Text(
                                               'Dados Inválidos. Verifique os dados digitados.',
-                                              textAlign: TextAlign.center,style: TextStyle(fontSize: 17), // Centraliza o texto
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      17), // Centraliza o texto
                                             ),
                                             actions: <CupertinoDialogAction>[
                                               CupertinoDialogAction(
@@ -204,34 +206,14 @@ class LoginPageState extends State<LoginPage> {
                                                   style: TextStyle(
                                                       color: Colors.blue,
                                                       fontWeight:
-                                                          FontWeight.bold, fontSize: 20),
+                                                          FontWeight.bold,
+                                                      fontSize: 20),
                                                 ), // Destaca o botão principal
                                               ),
                                             ],
                                           );
                                         },
                                       );
-                                      // showDialog(
-                                      //   context: context,
-                                      //   builder: (BuildContext context) {
-                                      //     return AlertDialog(
-                                      //       backgroundColor: Colors.white,
-                                      //       title: const Text('Aviso', textAlign: TextAlign.center,),
-                                      //       content:
-                                      //           const Text('Dados Inválidos. Verifique os dados digitados.',textAlign: TextAlign.center,),
-                                      //       actions: <Widget>[
-                                      //         Center(
-                                      //           child: TextButton(
-                                      //             child: const Text('OK', style: TextStyle(color: Colors.blue),),
-                                      //             onPressed: () {
-                                      //               Navigator.of(context).pop();
-                                      //             },
-                                      //           ),
-                                      //         ),
-                                      //       ],
-                                      //     );
-                                      //   },
-                                      // );
                                     }
                                   }
                                 },
@@ -294,7 +276,7 @@ class LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
+    var url = Uri.parse('https://api.marquei.pro/api/auth/token/');
 
     var response = await http.post(
       url,
@@ -312,6 +294,8 @@ class LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       await _sharedPreferences.setString(
           'token', "Bearer ${jsonDecode(response.body)['token']}");
+
+      await _getPerfil();
 
       setState(() {
         _isLoading = false;
@@ -344,22 +328,17 @@ class LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> perfilMap = json.decode(response.body);
+        print(perfilMap);
+        String perfilJson = jsonEncode(perfilMap);
 
-        await _saveUserProfile(perfilMap);
-      } else {
-        // Trate erros de resposta HTTP, se necessário.
+        await sharedPreferences.setString('user_profile', perfilJson);
+        // await _saveUserProfile(perfilMap);
       }
     }
+
+    //função que alterna a visibilidade da senha
   }
 
-  //função para salvar os dados do usuário no shared preferences
-  Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String perfilJson = jsonEncode(perfilMap);
-    await prefs.setString('user_profile', perfilJson);
-  }
-
-  //função que alterna a visibilidade da senha
   void togglePasswordVisibility() {
     setState(() {
       _obscurePassword = !_obscurePassword;

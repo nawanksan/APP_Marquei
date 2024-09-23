@@ -25,8 +25,8 @@ class MainApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
         fontFamily: 'Inter',
-        primaryColor: const Color(0xFF002AFF),
-        splashColor: const Color(0xFF002AFF),
+        primaryColor: const Color.fromARGB(255, 218, 218, 218),
+        splashColor: const Color.fromARGB(255, 236, 236, 236),
         // Colocar o branco como padrão para o fundo
         scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
