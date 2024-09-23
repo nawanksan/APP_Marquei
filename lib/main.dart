@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquei/src/add/presentation/home_add.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
+import 'package:marquei/src/catalog/presentation/ver_servico.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/login/presentation/pages/login_page.dart';
 import 'package:marquei/src/login/presentation/pages/page_menu.dart';
@@ -23,9 +24,11 @@ class MainApp extends StatelessWidget {
         textTheme: GoogleFonts.interTextTheme(
           Theme.of(context).textTheme,
         ),
-        // Colocar a fonte INter como padrão
         fontFamily: 'Inter',
         primaryColor: const Color(0xFF002AFF),
+        splashColor: const Color(0xFF002AFF),
+        // Colocar o branco como padrão para o fundo
+        scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       initialRoute: '/',
       routes: {
@@ -34,8 +37,10 @@ class MainApp extends StatelessWidget {
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
         '/catalog-home': (context) => const CatalogScreen(),
+        // '/editar_servico:'(context) => const
         '/Mais-home': (context) => const TelaMaisState(),
         '/scheduling-home': (context) => const CalendarPage(),
+        '/ver_servico': (context) => Servico(),
       },
     );
   }

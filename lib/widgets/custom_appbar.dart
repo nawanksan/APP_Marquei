@@ -144,8 +144,12 @@ class CustomAppBar extends StatelessWidget {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             5),
-                                                    child: Image.network(
-                                                      "https://marquei-api.fly.dev${perfil?['photo']}",
+                                                    child: FadeInImage
+                                                        .assetNetwork(
+                                                      placeholder:
+                                                          'assets/profile.png', // Caminho da imagem de placeholder
+                                                      image:
+                                                          "https://marquei-api.fly.dev${perfil?['photo']}",
                                                       width: 40,
                                                       height: 40,
                                                       fit: BoxFit.cover,

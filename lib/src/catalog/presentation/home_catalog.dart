@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:marquei/src/catalog/presentation/ver_servico.dart';
 
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
-  Future<void> _refresh(){
+  Future<void> _refresh() {
     return Future.delayed(const Duration(seconds: 2));
   }
 
@@ -46,7 +47,7 @@ class CatalogScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   _buildSectionHeader('Serviços'),
                   const SizedBox(height: 8),
-                  _buildServiceList(),
+                  _buildServiceList(context),
                 ],
               ),
             ),
@@ -74,7 +75,7 @@ class CatalogScreen extends StatelessWidget {
                   color: Color(0xFF002AFF),
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
-                    fontFamily: 'Inter',
+                  fontFamily: 'Inter',
                 ))),
       ],
     );
@@ -86,7 +87,6 @@ class CatalogScreen extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // ação ao apertar no primeiro card
-            
           },
           child: Container(
             padding: const EdgeInsets.symmetric(
@@ -163,19 +163,25 @@ class CatalogScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceList() {
+  Widget _buildServiceList(BuildContext context) {
     return Column(
       children: [
-        _buildServiceCard(),
+        _buildServiceCard(context),
         const SizedBox(height: 10),
-        _buildServiceCard(),
+        _buildServiceCard(context),
       ],
     );
   }
 
-  Widget _buildServiceCard() {
+  Widget _buildServiceCard(BuildContext context) {
     return GestureDetector(
-      onTap: () {print('teste');},
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Servico()));
+
+        // ver_servico(id: perfil?['id_servico'])
+        //é pelo navigator
+      },
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -248,4 +254,6 @@ class CatalogScreen extends StatelessWidget {
       ),
     );
   }
+
+  //chamar função que pega o token do usuario e adiciona na rota de serviços para pegar todos os serviços daquele usuario
 }
