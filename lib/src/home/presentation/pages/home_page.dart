@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:marquei/src/home/presentation/widgets/custom_statics.dart';
+import 'package:marquei/src/scheduling/presentation/view_scheduling.dart';
 import 'package:marquei/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -165,10 +166,6 @@ class HomePageState extends State<HomePage> {
                                 count:
                                     '${estatisticas?['schedules_today']}', //${estatisticas?['schedules_today']}
                                 date: 'Hoje',
-                                // onTap: () => {
-                                //   // Ações para abrir a tela de agendamentos
-                                //   print('apertou 3')
-                                // },
                               ),
                               const SizedBox(height: 10),
                               CustomStatics(
@@ -177,10 +174,6 @@ class HomePageState extends State<HomePage> {
                                 count:
                                     '${estatisticas?['clients']}', //${estatisticas?['clients']}
                                 date: 'Semana',
-                                // onTap: () => {
-                                //   // Ações para abrir a tela de agendamentos
-                                //   //...
-                                // },
                               ),
                               const SizedBox(height: 10),
                               CustomStatics(
@@ -189,10 +182,6 @@ class HomePageState extends State<HomePage> {
                                 count:
                                     'R\$ ${estatisticas?['invoicing']}', //${estatisticas?['invoicing']}
                                 date: 'Ano',
-                                // onTap: () => {
-                                //   // Ações para abrir a tela de agendamentos
-                                //   //...
-                                // },
                               ),
                               const SizedBox(height: 30),
                               const Text(
@@ -220,10 +209,23 @@ class HomePageState extends State<HomePage> {
                                       itemBuilder: (context, index) {
                                         return InkWell(
                                           onTap: () {
-                                            print('apertou');
+                                            print(agendamentos![index]);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AppointmentDetailsPage(
+                                                  appointmentId:
+                                                      agendamentos![index]['id']
+                                                          .toString(),
+                                                ),
+                                              ),
+                                            );
                                           },
                                           child: Container(
                                             width: double.infinity,
+                                            margin: const EdgeInsets.only(
+                                                bottom: 10),
                                             decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -252,7 +254,7 @@ class HomePageState extends State<HomePage> {
                                                       Container(
                                                         alignment:
                                                             Alignment.center,
-                                                        child: const Column(
+                                                        child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .start,
@@ -261,8 +263,13 @@ class HomePageState extends State<HomePage> {
                                                                   .center,
                                                           children: [
                                                             Text(
-                                                              '',
-                                                              style: TextStyle(
+                                                              agendamentos![
+                                                                          index]
+                                                                      ['date']
+                                                                  .split(
+                                                                      '/')[0],
+                                                              style:
+                                                                  const TextStyle(
                                                                 fontSize: 24,
                                                                 color: Color(
                                                                     0xFF000000),
@@ -272,8 +279,15 @@ class HomePageState extends State<HomePage> {
                                                               ),
                                                             ),
                                                             Text(
-                                                              'abr',
-                                                              style: TextStyle(
+                                                              getMonthName(
+                                                                  agendamentos![
+                                                                              index]
+                                                                          [
+                                                                          'date']
+                                                                      .split(
+                                                                          '/')[1]),
+                                                              style:
+                                                                  const TextStyle(
                                                                 fontSize: 16,
                                                                 color: Color(
                                                                     0xFF000000),
@@ -299,9 +313,9 @@ class HomePageState extends State<HomePage> {
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              const Text(
-                                                                'De 10:00 às 11:00',
-                                                                style: TextStyle(
+                                                              Text(
+                                                                'De ${agendamentos![index]['hour']} às ${getEndTime(agendamentos![index]['hour'], agendamentos![index]['services_total_time'])}',
+                                                                style: const TextStyle(
                                                                     fontSize:
                                                                         12,
                                                                     color: Color(
@@ -350,9 +364,16 @@ class HomePageState extends State<HomePage> {
                                                           ),
                                                           const SizedBox(
                                                               height: 3),
-                                                          const Text(
-                                                            'Kawan Nascimento',
-                                                            style: TextStyle(
+                                                          Text(
+                                                            agendamentos![index]
+                                                                        [
+                                                                        'client'] !=
+                                                                    null
+                                                                ? '${agendamentos![index]['client']['first_name']} ${agendamentos![index]['client']['last_name']}'
+                                                                : agendamentos![
+                                                                        index][
+                                                                    'name_client'],
+                                                            style: const TextStyle(
                                                                 fontSize: 18,
                                                                 color: Color(
                                                                     0xFF000000),
@@ -362,9 +383,9 @@ class HomePageState extends State<HomePage> {
                                                           ),
                                                           const SizedBox(
                                                               height: 3),
-                                                          const Text(
-                                                            'Serviços selecionados: 1',
-                                                            style: TextStyle(
+                                                          Text(
+                                                            'Serviços selecionados: ${agendamentos![index]['services'].length}',
+                                                            style: const TextStyle(
                                                                 fontSize: 12,
                                                                 color: Color(
                                                                     0xFF0D0D0D),
@@ -376,15 +397,17 @@ class HomePageState extends State<HomePage> {
                                                       ),
                                                     ],
                                                   ),
-                                                  const Column(
+                                                  Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        'R\$ 30,00',
-                                                        style: TextStyle(
+                                                        formatReal(
+                                                            agendamentos![index]
+                                                                ['value']),
+                                                        style: const TextStyle(
                                                             fontSize: 18,
                                                             color: Color(
                                                                 0xFF000000),
@@ -392,9 +415,9 @@ class HomePageState extends State<HomePage> {
                                                                 FontWeight
                                                                     .w800),
                                                       ),
-                                                      SizedBox(height: 3),
-                                                      Text(
-                                                        'Dinheiro',
+                                                      const SizedBox(height: 3),
+                                                      const Text(
+                                                        'Espécie',
                                                         style: TextStyle(
                                                             fontSize: 12,
                                                             color: Color(
@@ -477,7 +500,7 @@ class HomePageState extends State<HomePage> {
                                             ),
                                             const SizedBox(height: 10),
                                             const Text(
-                                              'Agendar',
+                                              'Criar serviço',
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 color: Color(0xFF0D0D0D),
@@ -525,7 +548,7 @@ class HomePageState extends State<HomePage> {
                                               ),
                                               alignment: Alignment.center,
                                               child: SvgPicture.asset(
-                                                'lib/assets/icons/box.svg',
+                                                'lib/assets/icons/calendar_heart.svg',
                                                 width: 25,
                                                 // ignore: deprecated_member_use
                                                 color: const Color(0xFF002AFF),
@@ -566,12 +589,61 @@ class HomePageState extends State<HomePage> {
     return true;
   }
 
-  // getUserProfile() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? perfilJson = prefs.getString('user_profile');
-  //   if (perfilJson != null) {
-  //     return jsonDecode(perfilJson);
-  //   }
-  //   return null;
-  // }
+  String getMonthName(String month) {
+    switch (month) {
+      case '01':
+        return 'jan';
+      case '02':
+        return 'fev';
+      case '03':
+        return 'mar';
+      case '04':
+        return 'abr';
+      case '05':
+        return 'mai';
+      case '06':
+        return 'jun';
+      case '07':
+        return 'jul';
+      case '08':
+        return 'ago';
+      case '09':
+        return 'set';
+      case '10':
+        return 'out';
+      case '11':
+        return 'nov';
+      case '12':
+        return 'dez';
+      default:
+        return '';
+    }
+  }
+
+  String getEndTime(String hour, String servicesTotalTime) {
+    final hourParts = hour.split(':');
+    final servicesTotalTimeParts = servicesTotalTime.split(':');
+
+    final hourInt = int.parse(hourParts[0]);
+    final minuteInt = int.parse(hourParts[1]);
+
+    final servicesHourInt = int.parse(servicesTotalTimeParts[0]);
+    final servicesMinuteInt = int.parse(servicesTotalTimeParts[1]);
+
+    int endHour = hourInt + servicesHourInt;
+    int endMinute = minuteInt + servicesMinuteInt;
+
+    if (endMinute >= 60) {
+      endHour += endMinute ~/ 60;
+      endMinute = endMinute % 60;
+    }
+
+    endHour = endHour % 24;
+
+    return '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}';
+  }
+
+  String formatReal(double value) {
+    return 'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
+  }
 }

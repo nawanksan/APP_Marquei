@@ -27,11 +27,9 @@ class TelaMaisStateState extends State<TelaMaisState> {
     setState(() {}); // Atualiza o estado para refletir as mudanças
   }
 
-  Future<void> _refresh(){
+  Future<void> _refresh() {
     return Future.delayed(const Duration(seconds: 2));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +52,8 @@ class TelaMaisStateState extends State<TelaMaisState> {
                 SizedBox(
                   width: double.infinity,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
@@ -73,40 +71,43 @@ class TelaMaisStateState extends State<TelaMaisState> {
                           height: 20,
                         ),
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/star.svg',
                           text: 'Avaliações de clientes',
                           onTap: () {
                             print('apertou 1');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // Ícone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // Ícone pode ser alterado
                         ),
                         const SizedBox(height: 10),
-                        
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/coupon.svg',
                           text: 'Cupons',
                           onTap: () {
                             print('apertou 2');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // Ícone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // Ícone pode ser alterado
                         ),
                         const SizedBox(height: 10),
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/desktop.svg',
                           text: 'Página do Negócio',
                           onTap: () {
                             print('apertou 3');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
                         ),
                         const SizedBox(height: 10),
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/chart.svg',
                           text: 'Relatórios',
                           onTap: () {
                             print('apertou 4');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
                         ),
                         const SizedBox(height: 35),
                         const Text(
@@ -119,21 +120,23 @@ class TelaMaisStateState extends State<TelaMaisState> {
                         ),
                         const SizedBox(height: 20),
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/hour.svg',
                           text: 'Horários',
                           onTap: () {
                             print('apertou 5');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
                         ),
-                       const SizedBox(height: 10),
-                       CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                        const SizedBox(height: 10),
+                        CustomInkWell(
+                          iconPath: 'lib/assets/icons/calendar-settings.svg',
                           text: 'Regras de Agendamentos',
                           onTap: () {
                             print('apertou 6');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
                         ),
                         const SizedBox(height: 35),
                         const Text(
@@ -146,22 +149,24 @@ class TelaMaisStateState extends State<TelaMaisState> {
                         ),
                         const SizedBox(height: 20),
                         CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                          iconPath: 'lib/assets/icons/chat.svg',
                           text: 'Fale Conosco',
                           onTap: () {
                             print('apertou 7');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
                         ),
-                       const SizedBox(height: 10),
-                       CustomInkWell(
-                          iconPath: 'lib/assets/icons/home.svg',
+                        const SizedBox(height: 10),
+                        CustomInkWell(
+                          iconPath: 'lib/assets/icons/document.svg',
                           text: 'Termos e Políticas',
                           onTap: () {
                             print('apertou 8');
                           },
-                          trailingIcon: Icons.arrow_forward_ios, // ��cone pode ser alterado
-                       ),
+                          trailingIcon: Icons
+                              .arrow_forward_ios, // ��cone pode ser alterado
+                        ),
                         const SizedBox(height: 30),
                         InkWell(
                           onTap: () async {
@@ -176,34 +181,40 @@ class TelaMaisStateState extends State<TelaMaisState> {
                           },
                           child: Container(
                             width: double.infinity,
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 18),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
                                     color: const Color(0xFFE2E8F0), width: 1)),
                             child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Sair',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: Color.fromARGB(255, 239, 8, 8),
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ],
-                              ),
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Sair',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(255, 239, 8, 8),
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(height: 40,),
+                        SizedBox(
+                          height: 40,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Versão 1.0.0',style: TextStyle(color: Colors.grey[500],fontWeight: FontWeight.w600 ),
+                              'Versão 1.0.0',
+                              style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontWeight: FontWeight.w600),
                             )
                           ],
                         ),
@@ -212,7 +223,6 @@ class TelaMaisStateState extends State<TelaMaisState> {
                   ),
                 )
               ],
-              
             ),
           ),
         ),
