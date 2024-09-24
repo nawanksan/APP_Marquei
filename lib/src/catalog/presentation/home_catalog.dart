@@ -162,7 +162,7 @@ class CatalogScreenState extends State<CatalogScreen> {
   Widget _buildServiceCard(Map<String, dynamic> servico) {
     return GestureDetector(
       onTap: () {
-        print('Serviço selecionado: ${servico['id']}');
+        // print('Serviço selecionado: ${servico['']}');
         Navigator.pushNamed(context, '/ver_servico', arguments: servico['id']);
       },
       child: Container(
