@@ -458,56 +458,65 @@ class HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: Container(
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                          color: const Color(0xFFE2E8F0),
-                                          width: 1,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, '/add_service');
+                                      },
+                                      child: Container(
+                                        height: 100,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          border: Border.all(
+                                            color: const Color(0xFFE2E8F0),
+                                            width: 1,
+                                          ),
                                         ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFFFFFFF),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
                                                   color:
-                                                      const Color(0xFFE2E8F0),
-                                                  width: 1,
+                                                      const Color(0xFFFFFFFF),
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  border: Border.all(
+                                                    color:
+                                                        const Color(0xFFE2E8F0),
+                                                    width: 1,
+                                                  ),
+                                                ),
+                                                alignment: Alignment.center,
+                                                child: SvgPicture.asset(
+                                                  'lib/assets/icons/box.svg',
+                                                  width: 25,
+                                                  // ignore: deprecated_member_use
+                                                  color:
+                                                      const Color(0xFF002AFF),
                                                 ),
                                               ),
-                                              alignment: Alignment.center,
-                                              child: SvgPicture.asset(
-                                                'lib/assets/icons/box.svg',
-                                                width: 25,
-                                                // ignore: deprecated_member_use
-                                                color: const Color(0xFF002AFF),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              'Criar serviço',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                color: Color(0xFF0D0D0D),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            )
-                                          ],
+                                              const SizedBox(height: 10),
+                                              const Text(
+                                                'Criar serviço',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Color(0xFF0D0D0D),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
