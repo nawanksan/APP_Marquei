@@ -10,13 +10,19 @@ class CatalogScreen extends StatefulWidget {
   CatalogScreenState createState() => CatalogScreenState();
 }
 
-class CatalogScreenState extends State<CatalogScreen> {
+class CatalogScreenState extends State<CatalogScreen> with RouteAware {
   List<dynamic>? servicos;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    fetchProfessionalServices();
+  }
+
+  @override
+  void didPopNext() {
+    // Atualize a lista quando voltar para esta tela
     fetchProfessionalServices();
   }
 
@@ -85,8 +91,9 @@ class CatalogScreenState extends State<CatalogScreen> {
         body: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
-                color: const Color(0xFF002AFF),
-              ))
+                  color: Color(0xFF002AFF),
+                ),
+              )
             : servicos != null
                 ? SingleChildScrollView(
                     child: SafeArea(
@@ -227,7 +234,7 @@ class CatalogScreenState extends State<CatalogScreen> {
                         fontSize: 16,
                       )),
                   const SizedBox(height: 10),
-                  Text('${servico['duration']} min',
+                  Text(getDuration(servico['duration']),
                       style: const TextStyle(
                         color: Color(0xFF718096),
                         fontWeight: FontWeight.w600,
@@ -240,5 +247,19 @@ class CatalogScreenState extends State<CatalogScreen> {
         ),
       ),
     );
+  }
+}
+
+String getDuration(String duration) {
+  final List<String> durationList = duration.split(':');
+  final int hours = int.parse(durationList[0]);
+  final int minutes = int.parse(durationList[1]);
+
+  if (hours == 0) {
+    return '${minutes}min';
+  } else if (minutes == 0) {
+    return '${hours}h';
+  } else {
+    return '${hours}h${minutes}min';
   }
 }
