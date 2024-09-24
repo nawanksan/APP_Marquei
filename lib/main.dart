@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:marquei/src/add/presentation/home_add.dart';
+import 'package:marquei/src/catalog/presentation/add_service.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
 import 'package:marquei/src/catalog/presentation/ver_servico.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
@@ -37,6 +38,8 @@ class MainApp extends StatelessWidget {
         '/menu': (context) => const PageMenu(),
         '/home': (context) => const HomePage(),
         '/catalog-home': (context) => const CatalogScreen(),
+        '/add_service': (context) => const AddService(),
+        // '/editar_cliente:'(context) => const
         // '/editar_servico:'(context) => const
         '/Mais-home': (context) => const TelaMaisState(),
         '/scheduling-home': (context) => const CalendarPage(),

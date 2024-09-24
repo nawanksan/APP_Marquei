@@ -12,14 +12,12 @@ class CatalogScreen extends StatefulWidget {
 
 class CatalogScreenState extends State<CatalogScreen> {
   List<dynamic>? servicos;
-  List<dynamic>? category;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     fetchProfessionalServices();
-    fetchProfessionalCategories();
   }
 
   Future<void> fetchProfessionalServices() async {
@@ -57,41 +55,6 @@ class CatalogScreenState extends State<CatalogScreen> {
     }
   }
 
-  Future<void> fetchProfessionalCategories() async {
-    String? token = await getToken();
-
-    if (token != null) {
-      final url =
-          Uri.parse('https://api.marquei.pro/api/professionals/category/');
-
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Converte a resposta para um Map
-        final responseBody = jsonDecode(response.body);
-        // print(response.body);
-        if (mounted) {
-          setState(() {
-            // Acessa a lista de resultados dentro de 'results'
-            category =
-                responseBody['results']; // 'results' contém a lista de serviços
-            isLoading = false;
-          });
-        }
-      } else {
-        print('Erro ao carregar as category. Status: ${response.statusCode}');
-      }
-    } else {
-      print('Token não encontrado');
-    }
-  }
-
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -109,7 +72,10 @@ class CatalogScreenState extends State<CatalogScreen> {
       child: Scaffold(
         backgroundColor: const Color(0xFFF7FAFC),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            print('adicioanr');
+            Navigator.pushNamed(context, '/add_service');
+          },
           backgroundColor: const Color(0xFF002AFF),
           child: const Icon(
             Icons.add,
@@ -140,10 +106,6 @@ class CatalogScreenState extends State<CatalogScreen> {
                                 fontFamily: 'Inter',
                               ),
                             ),
-                            const SizedBox(height: 10),
-                            _buildSectionHeader('Categorias'),
-                            const SizedBox(height: 8),
-                            _buildCategoryList(),
                             const SizedBox(height: 20),
                             _buildSectionHeader('Serviços'),
                             const SizedBox(height: 8),
@@ -180,49 +142,6 @@ class CatalogScreenState extends State<CatalogScreen> {
               )),
         ),
       ],
-    );
-  }
-
-  Widget _buildCategoryList() {
-    if (category == null || category!.isEmpty) {
-      return const Text("Nenhuma categoria disponível");
-    }
-
-    final categoriesToShow = category!.take(2).toList();
-
-    return Column(
-      children: categoriesToShow.map<Widget>((cat) {
-        return GestureDetector(
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-              border: Border.all(
-                color: const Color(0xFFE2E8F0),
-                width: 1,
-              ),
-            ),
-            width: double.infinity,
-            height: 60,
-            margin: const EdgeInsets.only(bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  cat['name'],
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFF000000),
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }).toList(),
     );
   }
 
@@ -322,6 +241,4 @@ class CatalogScreenState extends State<CatalogScreen> {
       ),
     );
   }
-
-  //chamar função que pega o token do usuario e adiciona na rota de serviços para pegar todos os serviços daquele usuario
 }
