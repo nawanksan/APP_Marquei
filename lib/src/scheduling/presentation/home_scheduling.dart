@@ -293,140 +293,87 @@ class _CalendarPageState extends State<CalendarPage> {
 
   List<Map<String, dynamic>> appointments = [
     {
-      'id': 8,
-      'date': '27/08/2024',
-      'hour': '19:00',
-      'status': 'ACCOMPLISHED',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
+      "id": 3,
+      "date": "16/09/2024",
+      "hour": "10:00",
+      "status": "PENDING",
+      "value": 105,
+      "services_total_time": "01:35",
+      "services": [
         {
-          'name': 'Corte',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
+          "name": "Hidratação Capilar",
+          "description":
+              "Tratamento para hidratar e revitalizar os fios masculinos.",
+          "value": 60,
+          "duration": "00:45",
+          "photo":
+              "/media/images/professionals/6/hidratacao-capilar-masculina.jpg/hidratacao-capilar-masculina.jpg",
+          "category": "Tratamentos Capilares"
         },
+        {
+          "name": "Barba Navalhada",
+          "description": "Barba feita à navalha.",
+          "value": 30,
+          "duration": "00:30",
+          "photo":
+              "/media/images/professionals/6/cabeleireiro-.jpg/cabeleireiro-.jpg",
+          "category": "Barba"
+        },
+        {
+          "name": "Aparo de Barba",
+          "description": "Aparar e modelar a barba com técnica e precisão.",
+          "value": 25,
+          "duration": "00:20",
+          "photo":
+              "/media/images/professionals/6/como-aparar-a-barba-01.webp/como-aparar-a-barba-01.webp",
+          "category": "Barba"
+        }
       ],
-      'client': null,
-      'name_client': 'Uvinha',
+      "client": {
+        "first_name": "Houston",
+        "last_name": "Barros",
+        "photo": "/media/images/clients/14/file.jpg/file.jpg"
+      },
+      "name_client": null,
+      "observation": "",
+      "payment": {
+        "payment_form": "ESTABLISHMENT",
+        "value": 105,
+        "status": "PENDING"
+      }
     },
     {
-      'id': 8,
-      'date': '27/08/2024',
-      'hour': '19:00',
-      'status': 'ACCOMPLISHED',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
+      "id": 1,
+      "date": "13/09/2024",
+      "hour": "08:30",
+      "status": "PENDING",
+      "value": 50,
+      "services_total_time": "00:45",
+      "services": [
         {
-          'name': 'Corte',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
+          "name": "Hidratação Capilar",
+          "description":
+              "Tratamento para hidratar e revitalizar os fios masculinos.",
+          "value": 60,
+          "duration": "00:45",
+          "photo":
+              "/media/images/professionals/6/hidratacao-capilar-masculina.jpg/hidratacao-capilar-masculina.jpg",
+          "category": "Tratamentos Capilares"
+        }
       ],
-      'client': null,
-      'name_client': 'Uvinha',
-    },
-    {
-      'id': 8,
-      'date': '27/08/2024',
-      'hour': '19:00',
-      'status': 'ACCOMPLISHED',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
-        {
-          'name': 'Corte',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
-      ],
-      'client': null,
-      'name_client': 'Houston Barros',
-    },
-    {
-      'id': 8,
-      'date': '27/08/2024',
-      'hour': '19:00',
-      'status': 'ACCOMPLISHED',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
-        {
-          'name': 'Corte',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
-      ],
-      'client': null,
-      'name_client': 'Uvinha',
-    },
-    {
-      'id': 8,
-      'date': '27/08/2024',
-      'hour': '19:00',
-      'status': 'ACCOMPLISHED',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
-        {
-          'name': 'Corte',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
-      ],
-      'client': null,
-      'name_client': 'Uvinha',
-    },
-    {
-      'id': 7,
-      'date': '28/08/2024',
-      'hour': '17:45',
-      'status': 'PENDING',
-      'value': 50.0,
-      'services_total_time': '00:30',
-      'services': [
-        {
-          'name': 'Barba',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
-        {
-          'name': 'Tete',
-          'description': 'dadada',
-          'value': 50.0,
-          'duration': '00:30',
-          'photo':
-              '/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg',
-          'category': 'Teste',
-        },
-      ],
-      'client': null,
-      'name_client': 'Uvinha',
-    },
+      "client": {
+        "first_name": "Houston",
+        "last_name": "Barros",
+        "photo": "/media/images/clients/14/file.jpg/file.jpg"
+      },
+      "name_client": null,
+      "observation": "",
+      "payment": {
+        "payment_form": "ESTABLISHMENT",
+        "value": 50,
+        "status": "PENDING"
+      }
+    }
   ];
 
   List<Map<String, dynamic>> get filteredAppointments {
@@ -482,15 +429,29 @@ class _CalendarPageState extends State<CalendarPage> {
                   onDateSelected: _onDateSelected,
                 ),
               ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: filteredAppointments.length,
-                  itemBuilder: (context, index) {
-                    final appointment = filteredAppointments[index];
-                    return SchedulingCard(appointment: appointment);
-                  },
+              if (filteredAppointments.isEmpty)
+                const Expanded(
+                  child: Center(
+                    child: Text(
+                      'Nenhum agendamento para este dia',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xFF718096),
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: filteredAppointments.length,
+                    itemBuilder: (context, index) {
+                      final appointment = filteredAppointments[index];
+                      return SchedulingCard(appointment: appointment);
+                    },
+                  ),
                 ),
-              ),
             ],
           ),
         ),
@@ -567,7 +528,9 @@ class _SchedulingCardState extends State<SchedulingCard> {
                   ),
                 ),
                 Text(
-                  widget.appointment['services_total_time'],
+                  // widget.appointment['services_total_time'],
+                  getEndTime(widget.appointment['hour'],
+                      widget.appointment['services_total_time']),
                   style: const TextStyle(
                     fontSize: 18,
                     color: Color(0xFF718096),
@@ -595,7 +558,7 @@ class _SchedulingCardState extends State<SchedulingCard> {
                                       .appointment['client']['photo'].isNotEmpty
                               ? DecorationImage(
                                   image: NetworkImage(
-                                      widget.appointment['client']['photo']),
+                                      'https://api.marquei.pro${widget.appointment['client']['photo']}'),
                                   fit: BoxFit.cover,
                                 )
                               : null,
@@ -607,10 +570,10 @@ class _SchedulingCardState extends State<SchedulingCard> {
                                         .appointment['client']['photo'].isEmpty)
                             ? Center(
                                 child: Text(
-                                  _getInitials(
-                                      widget.appointment['client'] != null
-                                          ? widget.appointment['client']['name']
-                                          : widget.appointment['name_client']),
+                                  _getInitials(widget.appointment['client'] !=
+                                          null
+                                      ? '${widget.appointment['client']['first_name']} ${widget.appointment['client']['last_name']}'
+                                      : widget.appointment['name_client']),
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
@@ -624,7 +587,7 @@ class _SchedulingCardState extends State<SchedulingCard> {
                       const SizedBox(width: 10),
                       Text(
                         widget.appointment['client'] != null
-                            ? widget.appointment['client']['name']
+                            ? '${widget.appointment['client']['first_name']} ${widget.appointment['client']['last_name']}'
                             : widget.appointment['name_client'],
                         style: const TextStyle(
                           fontSize: 22,
@@ -638,17 +601,14 @@ class _SchedulingCardState extends State<SchedulingCard> {
                   Row(
                     children: [
                       SvgPicture.asset(
-                        'lib/assets/icons/home.svg',
+                        'lib/assets/icons/box.svg',
                         width: 14,
                         colorFilter: const ColorFilter.mode(
                             Color(0xFF2d3748), BlendMode.srcIn),
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        (widget.appointment['services']
-                                as List<Map<String, dynamic>>)
-                            .map<String>((service) => service['name'] as String)
-                            .join(', '),
+                        '${widget.appointment['services'].length} serviços selecionados',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -662,14 +622,15 @@ class _SchedulingCardState extends State<SchedulingCard> {
                   Row(
                     children: [
                       SvgPicture.asset(
-                        'lib/assets/icons/home.svg',
+                        'lib/assets/icons/money.svg',
                         width: 14,
                         colorFilter: const ColorFilter.mode(
                             Color(0xFF2d3748), BlendMode.srcIn),
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        _transformToReal(widget.appointment['value']),
+                        _transformToReal(
+                            widget.appointment['value'].toDouble()),
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -767,4 +728,27 @@ String _colorTextFromStatus(String status) {
     default:
       return '0xFFFFFFFF';
   }
+}
+
+String getEndTime(String hour, String servicesTotalTime) {
+  final hourParts = hour.split(':');
+  final servicesTotalTimeParts = servicesTotalTime.split(':');
+
+  final hourInt = int.parse(hourParts[0]);
+  final minuteInt = int.parse(hourParts[1]);
+
+  final servicesHourInt = int.parse(servicesTotalTimeParts[0]);
+  final servicesMinuteInt = int.parse(servicesTotalTimeParts[1]);
+
+  int endHour = hourInt + servicesHourInt;
+  int endMinute = minuteInt + servicesMinuteInt;
+
+  if (endMinute >= 60) {
+    endHour += endMinute ~/ 60;
+    endMinute = endMinute % 60;
+  }
+
+  endHour = endHour % 24;
+
+  return '${endHour.toString().padLeft(2, '0')}:${endMinute.toString().padLeft(2, '0')}';
 }

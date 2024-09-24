@@ -36,33 +36,39 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
     //     throw Exception('Falha ao carregar os dados do agendamento');
     //   }
     // } catch (e) {
-    //   // Tratar erros de requisição
     //   setState(() {
     //     _isLoading = false;
     //   });
     //   print('Erro: $e');
     // }
+    // Dados de exemplo para teste
     setState(() {
       _appointmentDetails = {
         "id": 1,
-        "date": "15/07/2024",
-        "hour": "18:00",
-        "status": "RESCHEDULED",
+        "date": "13/09/2024",
+        "hour": "08:30",
+        "status": "Pendente",
         "value": 50,
-        "services_total_time": "00:15",
+        "services_total_time": "00:45",
         "services": [
           {
-            "name": "AAAAAAAAA",
-            "description": "dadada",
-            "value": 50,
-            "duration": "00:30",
-            "photo":
-                "/media/images/professionals/11/Cores-para-parede-externa-2020-05.jpg",
-            "category": "Teste"
+            "name": "Hidratação Capilar",
+            "category": "Tratamentos Capilares",
+            "value": 60,
+            "duration": "00:45",
           }
         ],
-        "client": {"first_name": "Houstonb", "last_name": "Clientela"},
-        "name_client": null
+        "client": {
+          "first_name": "Houston",
+          "last_name": "Barros",
+          "photo_url": "https://via.placeholder.com/150"
+        },
+        "payment": {
+          "method": "Estabelecimento",
+          "status": "Pendente",
+          "value": 50
+        },
+        "observation": "Sem observação"
       };
       _isLoading = false;
     });
@@ -73,39 +79,158 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do Agendamento'),
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              // Adicione ações conforme necessário
+            },
+            itemBuilder: (BuildContext context) {
+              return ['Opção 1', 'Opção 2'].map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          )
+        ],
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _appointmentDetails == null
               ? const Center(child: Text('Erro ao carregar os detalhes'))
-              : Padding(
+              : SingleChildScrollView(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Horário: ${_appointmentDetails!['hour']}',
-                        style: const TextStyle(fontSize: 22),
+                      // Seção de informações do cliente
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(
+                                _appointmentDetails!['client']['photo_url']),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${_appointmentDetails!['client']['first_name']} ${_appointmentDetails!['client']['last_name']}',
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Cliente: ${_appointmentDetails!['client']['name']}',
-                        style: const TextStyle(fontSize: 18),
+                      const SizedBox(height: 20),
+                      // Seção de Serviços
+                      const Text(
+                        'Serviços',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Serviços: ${(_appointmentDetails!['services'] as List).map((service) => service['name']).join(', ')}',
-                        style: const TextStyle(fontSize: 16),
+                      const SizedBox(height: 8),
+                      _buildServiceDetails(),
+                      const SizedBox(height: 20),
+                      // Seção de Atendimento
+                      const Text(
+                        'Atendimento',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Valor: ${_appointmentDetails!['value']}',
-                        style: const TextStyle(fontSize: 16),
+                      const SizedBox(height: 8),
+                      _buildAppointmentDetails(),
+                      const SizedBox(height: 20),
+                      // Seção de Pagamento
+                      const Text(
+                        'Pagamento',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      // Adicione mais detalhes conforme necessário
+                      const SizedBox(height: 8),
+                      _buildPaymentDetails(),
                     ],
                   ),
                 ),
     );
   }
+
+  Widget _buildServiceDetails() {
+    final service = _appointmentDetails!['services'][0];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          service['name'],
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        Text('Categoria: ${service['category']}'),
+        Text('Duração: ${service['duration']}'),
+        Text('Valor: R\$ ${service['value'].toStringAsFixed(2)}'),
+      ],
+    );
+  }
+
+  Widget _buildAppointmentDetails() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+                'Data e horário: ${_appointmentDetails!['date']} - ${_appointmentDetails!['hour']}'),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.orange[100],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                _appointmentDetails!['status'],
+                style: const TextStyle(color: Colors.orange),
+              ),
+            ),
+          ],
+        ),
+        Text('Duração: ${_appointmentDetails!['services_total_time']}'),
+        Text('Observação: ${_appointmentDetails!['observation']}'),
+      ],
+    );
+  }
+
+  Widget _buildPaymentDetails() {
+    final payment = _appointmentDetails!['payment'];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text('Método: ${payment['method']}'),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: Colors.orange[100],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                payment['status'],
+                style: const TextStyle(color: Colors.orange),
+              ),
+            ),
+          ],
+        ),
+        Text('Valor: R\$ ${payment['value'].toStringAsFixed(2)}'),
+      ],
+    );
+  }
+}
+
+String formatReal(double value) {
+  return 'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
 }
