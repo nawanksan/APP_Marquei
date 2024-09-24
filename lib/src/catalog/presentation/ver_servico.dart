@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Servico extends StatelessWidget {
+ 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +25,8 @@ class Servico extends StatelessWidget {
   }
 
   Widget _buildImageSection() {
+    // String? selectedAction; // Variável para armazenar a ação selecionada
+
     return Stack(
       children: [
         Container(
@@ -40,6 +44,42 @@ class Servico extends StatelessWidget {
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(''),
+            actions: [
+              SizedBox(width: 8), // Espaço entre o dropdown e a borda
+              Text('Ações'), // Nome "Ações" ao lado esquerdo
+
+              // Dropdown para ações
+              PopupMenuButton<String>(
+                icon: Icon(Icons.keyboard_arrow_down_outlined),
+                onSelected: (String value) {
+                  // Ações a serem realizadas quando o item do menu é selecionado
+                  if (value == 'editar') {
+                    // Coloque aqui a lógica para editar
+                    
+                    print('Editar selecionado');
+                  } else if (value == 'deletar') {
+                    // Coloque aqui a lógica para deletar
+                    print('Deletar selecionado');
+                  }
+                },
+                itemBuilder: (BuildContext context) {
+                  return [
+                    PopupMenuItem(
+                      value: 'editar',
+                      child: Text('Editar'),
+                    ),
+                    PopupMenuItem(
+                      value: 'deletar',
+                      child: Text('Deletar'),
+                    ),
+                  ];
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Raio das bordas
+                ),
+                color: Colors.white, // Cor de fundo do menu
+              ), // Espaço entre "Ações" e o ícone de editar
+            ],
           ),
         ),
       ],
@@ -62,7 +102,6 @@ class Servico extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Icon(Icons.edit, color: Colors.black),
           ],
         ),
         SizedBox(height: 8),
@@ -124,8 +163,10 @@ class Servico extends StatelessWidget {
         ),
         SizedBox(height: 8),
         // Lista de agendamentos
-        _buildAppointmentRow('Nome do Cliente', '29/08/2024 - 11:30', 'Pendente'),
-        _buildAppointmentRow('Nome do Cliente 2', '29/08/2024 - 19:30', 'Pendente'),
+        _buildAppointmentRow(
+            'Nome do Cliente', '29/08/2024 - 11:30', 'Pendente'),
+        _buildAppointmentRow(
+            'Nome do Cliente 2', '29/08/2024 - 19:30', 'Pendente'),
       ],
     );
   }
