@@ -23,37 +23,47 @@ class _ServicoState extends State<Servico> {
 
   // Função para buscar os detalhes do serviço pela API
   Future<void> _getServicoDetails() async {
-  final int? servicoId = ModalRoute.of(context)?.settings.arguments as int?;
-  if (servicoId == null) {
-    return; // Se o ID do serviço for nulo, não faz nada
+    String? token = await getToken();
+    final int? servicoId = ModalRoute.of(context)?.settings.arguments as int?;
+
+    if (servicoId == null) {
+      // Se o ID do serviço for nulo, não faz nada
+      return;
+    }
+
+    final url = Uri.parse('https://api.marquei.pro/api/services/$servicoId/');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': token ?? '',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      setState(() {
+        servicoDetails =
+            jsonDecode(response.body); // Armazena os detalhes do serviço
+      });
+    } else {
+      print('Erro ao buscar detalhes do serviço: ${response.body}');
+      Navigator.pop(context);
+    }
   }
 
-  // Obtendo o token do SharedPreferences
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token'); // Supondo que o token foi salvo com a chave 'token'
-
-  final String url = 'https://api.marquei.pro/api/services/${servicoId}/';
-  final response = await http.get(
-    Uri.parse(url),
-    headers: {
-      'Authorization': 'Bearer $token', // Adiciona o token no cabeçalho da requisição
-    },
-  );
-
-  if (response.statusCode == 200) {
-    setState(() {
-      servicoDetails = jsonDecode(response.body); // Armazena os detalhes do serviço
-    });
-  } else {
-    print('Erro ao buscar detalhes do serviço: ${response.statusCode}');
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: servicoDetails == null
-          ? Center(child: CircularProgressIndicator()) // Exibe um loading enquanto carrega
+          ? Center(
+              child:
+                  CircularProgressIndicator()) // Exibe um loading enquanto carrega
           : Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
