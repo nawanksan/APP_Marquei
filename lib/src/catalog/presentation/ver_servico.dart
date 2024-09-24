@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Servico extends StatefulWidget {
   @override
   _ServicoState createState() => _ServicoState();
@@ -21,29 +23,47 @@ class _ServicoState extends State<Servico> {
 
   // Função para buscar os detalhes do serviço pela API
   Future<void> _getServicoDetails() async {
+    String? token = await getToken();
     final int? servicoId = ModalRoute.of(context)?.settings.arguments as int?;
+
     if (servicoId == null) {
       // Se o ID do serviço for nulo, não faz nada
       return;
     }
 
-    final String url = 'https://api.marquei.pro/api/services/$servicoId}';
-    final response = await http.get(Uri.parse(url));
+    final url = Uri.parse('https://api.marquei.pro/api/services/$servicoId/');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': token ?? '',
+        'Content-Type': 'application/json',
+      },
+    );
 
     if (response.statusCode == 200) {
       setState(() {
-        servicoDetails = jsonDecode(response.body); // Armazena os detalhes do serviço
+        servicoDetails =
+            jsonDecode(response.body); // Armazena os detalhes do serviço
       });
     } else {
-      print('Erro ao buscar detalhes do serviço: ${response.statusCode}');
+      print('Erro ao buscar detalhes do serviço: ${response.body}');
+      Navigator.pop(context);
     }
+  }
+
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: servicoDetails == null
-          ? Center(child: CircularProgressIndicator()) // Exibe um loading enquanto carrega
+          ? Center(
+              child:
+                  CircularProgressIndicator()) // Exibe um loading enquanto carrega
           : Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[

@@ -152,6 +152,7 @@ class CatalogScreenState extends State<CatalogScreen> {
       );
     }
 
+    print("servicos: $servicos");
     return Column(
       children: servicos!.map((service) {
         return _buildServiceCard(service);
@@ -162,7 +163,6 @@ class CatalogScreenState extends State<CatalogScreen> {
   Widget _buildServiceCard(Map<String, dynamic> servico) {
     return GestureDetector(
       onTap: () {
-        print('Serviço selecionado: ${servico['id']}');
         Navigator.pushNamed(context, '/ver_servico', arguments: servico['id']);
       },
       child: Container(
