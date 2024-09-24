@@ -156,15 +156,15 @@ class LoginPageState extends State<LoginPage> {
                                 //DropdownButtonFormField
                                 style: ButtonStyle(
                                     backgroundColor:
-                                        const MaterialStatePropertyAll(
+                                        const WidgetStatePropertyAll(
                                             Color(0xFF0053CC)),
                                     foregroundColor:
-                                        const MaterialStatePropertyAll(
+                                        const WidgetStatePropertyAll(
                                             Colors.white),
-                                    minimumSize: const MaterialStatePropertyAll(
+                                    minimumSize: const WidgetStatePropertyAll(
                                       Size(400, 45),
                                     ),
-                                    shape: MaterialStateProperty.all<
+                                    shape: WidgetStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                             borderRadius:
@@ -174,7 +174,6 @@ class LoginPageState extends State<LoginPage> {
                                   if (_formKey.currentState!.validate()) {
                                     bool deuCerto = await realizarLogin();
                                     if (deuCerto) {
-
                                       Navigator.pushReplacementNamed(
                                           context, '/menu');
                                     } else {
@@ -277,7 +276,7 @@ class LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    var url = Uri.parse('https://marquei-api.fly.dev/api/auth/token/');
+    var url = Uri.parse('https://api.marquei.pro/api/auth/token/');
 
     var response = await http.post(
       url,
@@ -319,7 +318,7 @@ class LoginPageState extends State<LoginPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');
     if (token != null) {
-      var url = Uri.https('marquei-api.fly.dev', '/api/professionals/me/');
+      var url = Uri.https('api.marquei.pro', '/api/professionals/me/');
 
       Map<String, String> headers = {
         'Authorization': token,
@@ -338,12 +337,11 @@ class LoginPageState extends State<LoginPage> {
     }
 
     //função que alterna a visibilidade da senha
-    
   }
 
   void togglePasswordVisibility() {
-      setState(() {
-        _obscurePassword = !_obscurePassword;
-      });
-    }
+    setState(() {
+      _obscurePassword = !_obscurePassword;
+    });
+  }
 }

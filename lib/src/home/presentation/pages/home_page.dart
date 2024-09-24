@@ -28,29 +28,40 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> initUserProfile() async {
-    perfil = await getUserProfile();
-    await fetchProfessionalStatistics();
-    await fetchProfessionalAgendamentos();
+    try {
+      final fetchedPerfil = await getUserProfile();
+      print(fetchedPerfil);
+      final fetchedEstatisticas = await fetchProfessionalStatistics() ?? {};
+      final fetchedAgendamentos = await fetchProfessionalAgendamentos() ?? [];
 
-    setState(() {}); // Atualiza o estado para refletir as mudanças
+      setState(() {
+        perfil = fetchedPerfil;
+        estatisticas = fetchedEstatisticas;
+        agendamentos = fetchedAgendamentos;
+      });
+    } catch (error) {
+      // Lidar com o erro, exibir mensagem de falha, etc.
+    }
   }
 
   // Recupera o perfil do SharedPreferences
   Future<Map<String, dynamic>?> getUserProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? perfilJson = prefs.getString('user_profile');
+
     if (perfilJson != null) {
       return jsonDecode(perfilJson);
     }
+
     return null;
   }
 
-  Future<void> fetchProfessionalAgendamentos() async {
-    String? token = await getToken(); // Função para recuperar o token
-    // print(token);
+  Future<List<dynamic>?> fetchProfessionalAgendamentos() async {
+    String? token = await getToken();
+
     if (token != null) {
       final url =
-          Uri.parse('https://marquei-api.fly.dev/api/scheduling/professional/');
+          Uri.parse('https://api.marquei.pro/api/scheduling/professional/');
 
       final response = await http.get(
         url,
@@ -62,25 +73,22 @@ class HomePageState extends State<HomePage> {
 
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
-        agendamentos = responseBody['results'];
 
-        print(response.body);
+        return responseBody['results'];
       } else {
-        print(
-            'Erro ao carregar os agendamentos. Status: ${response.statusCode}');
+        return null;
       }
     } else {
-      print('Token não encontrado');
+      return null;
     }
   }
 
-  // Busca as estatísticas do profissional
-  Future<void> fetchProfessionalStatistics() async {
-    String? token = await getToken(); // Função para recuperar o token
-    // print(token);
+  Future<Map<String, dynamic>?> fetchProfessionalStatistics() async {
+    String? token = await getToken();
+
     if (token != null) {
-      final url = Uri.parse(
-          'https://marquei-api.fly.dev/api/professionals/statistics/');
+      final url =
+          Uri.parse('https://api.marquei.pro/api/professionals/statistics/');
 
       final response = await http.get(
         url,
@@ -91,15 +99,12 @@ class HomePageState extends State<HomePage> {
       );
 
       if (response.statusCode == 200) {
-        estatisticas = jsonDecode(response.body);
-        // print('Estatísticas: $estatisticas');
+        return jsonDecode(response.body) as Map<String, dynamic>?;
       } else {
-        print(
-            'Erro ao carregar as estatísticas. Status: ${response.statusCode}');
-        // print(response.body);
+        return null;
       }
     } else {
-      print('Token não encontrado');
+      return null;
     }
   }
 
@@ -109,7 +114,6 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<void> _refresh() async {
-    // return Future.delayed(const Duration(seconds: 2));
     await initUserProfile();
   }
 
@@ -214,8 +218,6 @@ class HomePageState extends State<HomePage> {
                                           const NeverScrollableScrollPhysics(),
                                       itemCount: agendamentos!.length,
                                       itemBuilder: (context, index) {
-                                        final agendamento =
-                                            agendamentos![index];
                                         return InkWell(
                                           onTap: () {
                                             print('apertou');
