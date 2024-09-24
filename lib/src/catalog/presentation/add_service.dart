@@ -1,4 +1,5 @@
 // import 'dart:convert';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,72 +23,81 @@ class _AddServiceState extends State<AddService> {
   File? _foto;
   double _preco = 0.0;
   String _categoria = 'Cabelo';
+  int _categoriaId = 1;
 
   // Lista de durações disponíveis
   List<String> duracoes = ['30min', '45min', '1 hora', '1 hora e 30min'];
   List<String> categorias = ['Cabelo', 'Mãos', 'Pés', 'Maquiagem'];
 
   Future<void> _salvarServico() async {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
-    // Carregar o token do SharedPreferences
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    print('token ::::: $token');
+      // Carregar o token do SharedPreferences
+      String? token = await getToken();
 
-    if (token != null) {
-      // Criar uma requisição multiparte para enviar os dados e a foto
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('https://api.marquei.pro/api/services/'),
-      );
+      // Dados do serviço para envio
+      Map<String, dynamic> serviceData = {
+        "name": _nome,
+        "description": _descricao,
+        "value": _preco,
+        "duration": _duracao == '30min'
+            ? '00:30'
+            : _duracao == '45min'
+                ? '00:45'
+                : _duracao == '1 hora'
+                    ? '01:00'
+                    : '01:30',
+        "category_id": _categoriaId,
+      };
 
-      // Adicionar cabeçalho de autorização
-      request.headers['Authorization'] = 'Bearer $token'; // Certifique-se de que 'Bearer' é necessário
+      // print("Duracao: $_duracao");
+      //
 
-      // Adicionar os campos diretamente no corpo da requisição
-      request.fields['name'] = _nome;
-      request.fields['description'] = _descricao;
-      request.fields['value'] = _preco.toString(); // Convertendo para string
-      request.fields['duration'] = _duracao;
-      request.fields['category'] = _categoria;
+      if (token != null) {
+        final url = Uri.parse('https://api.marquei.pro/api/services/');
 
-      // Adicionar a foto como arquivo binário se uma foto for selecionada
-      if (_foto != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'photo', // Nome do campo de foto na API
+        // Criar uma requisição Multipart
+        var request = http.MultipartRequest('POST', url)
+          ..headers['Authorization'] = token
+          ..headers['Content-Type'] = 'application/json';
+
+        // Adicionar os dados do serviço ao corpo da requisição
+        request.fields['payload'] = json.encode(serviceData);
+
+        // Adicionar o arquivo da foto
+        if (_foto != null) {
+          var file = await http.MultipartFile.fromPath(
+            'photo',
             _foto!.path,
-          ),
-        );
-      }
+            filename: 'service_photo.jpg',
+          );
+          request.files.add(file);
+        }
 
-      // Enviar a requisição
-      var response = await request.send();
+        // Fazer a requisição
+        var response = await request.send();
 
-      // Tratar a resposta
-      if (response.statusCode == 201) {
-        // Serviço criado com sucesso
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Serviço salvo com sucesso!')),
-        );
+        // Tratar a resposta
+        if (response.statusCode == 201) {
+          // Serviço criado com sucesso
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Serviço salvo com sucesso!')),
+          );
+        } else {
+          // Erro ao salvar
+          response.stream.transform(utf8.decoder).listen((value) {
+            print(value);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Erro ao salvar o serviço: $value')),
+            );
+          });
+        }
       } else {
-        // Erro ao salvar
-        final responseString = await response.stream.bytesToString();
-        print('Erro: ${response.reasonPhrase}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar o serviço: ${response.reasonPhrase}\n$responseString')),
-        );
+        print('Token não encontrado');
       }
-    } else {
-      print('Token de autenticação não encontrado.');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro: Token de autenticação não encontrado.')),
-      );
     }
   }
-}
 
   // Função para selecionar a imagem do dispositivo
   Future<void> _selecionarImagem() async {
@@ -111,7 +121,7 @@ class _AddServiceState extends State<AddService> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Criar Serviço',
+        title: Text('',
             style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Padding(
@@ -150,6 +160,7 @@ class _AddServiceState extends State<AddService> {
                 onChanged: (String? newValue) {
                   setState(() {
                     _categoria = newValue!;
+                    _categoriaId = categorias.indexOf(newValue) + 1;
                   });
                 },
                 onSaved: (value) {

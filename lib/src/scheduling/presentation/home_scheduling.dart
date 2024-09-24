@@ -443,7 +443,7 @@ class _CalendarPageState extends State<CalendarPage> {
     });
   }
 
-  Future<void> _refresh(){
+  Future<void> _refresh() {
     return Future.delayed(const Duration(seconds: 2));
   }
 
@@ -467,7 +467,8 @@ class _CalendarPageState extends State<CalendarPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   border: Border(

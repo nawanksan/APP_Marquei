@@ -96,6 +96,7 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
+                          key: Key('emailField'),
                           cursorColor: Color(0xFF002AFF),
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -126,6 +127,7 @@ class LoginPageState extends State<LoginPage> {
                           height: 8,
                         ),
                         TextFormField(
+                          key: Key('passwordField'),
                           cursorColor: Color(0xFF002AFF),
                           obscureText: _obscurePassword,
                           controller: _passwordController,
@@ -153,6 +155,7 @@ class LoginPageState extends State<LoginPage> {
                                 color: Color(0xFF0053CC),
                               )
                             : ElevatedButton(
+                              key: Key('loginButton'),
                                 //DropdownButtonFormField
                                 style: ButtonStyle(
                                     backgroundColor:

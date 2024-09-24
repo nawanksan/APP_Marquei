@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marquei/src/add/presentation/home_add.dart';
-import 'package:marquei/src/finances/presentation/home_finan%C3%A7as.dart';
+import 'package:marquei/src/finances/presentation/pages/home_finance.dart';
 import 'package:marquei/src/catalog/presentation/home_catalog.dart';
 import 'package:marquei/src/home/presentation/pages/home_page.dart';
 import 'package:marquei/src/scheduling/presentation/home_scheduling.dart';
@@ -39,7 +39,7 @@ class _PageMenuState extends State<PageMenu> {
           HomePage(),
           CalendarPage(),
           CatalogScreen(),
-          TelaFinancas(),
+          HomeFinance(),
           TelaMaisState(),
         ],
       ),

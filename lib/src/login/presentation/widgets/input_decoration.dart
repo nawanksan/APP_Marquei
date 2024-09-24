@@ -43,6 +43,7 @@ InputDecoration getAuthenticationInputDecorationSenha(bool obscurePassword, Void
     contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
     
       suffixIcon: GestureDetector(
+        key: Key('togglePasswordVisibility'),
         onTap: togglePasswordVisibility,
         child: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility),
       )

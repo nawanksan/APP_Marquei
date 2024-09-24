@@ -109,6 +109,7 @@ class CustomAppBar extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: GestureDetector(
+                      key: Key('GestureDetectorKey'),
                       onTap: () {
                         showModalBottomSheet<void>(
                           context: context,
