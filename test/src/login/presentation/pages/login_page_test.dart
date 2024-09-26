@@ -4,6 +4,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:marquei/src/login/presentation/pages/login_page.dart';
 
 void main() {
+  late LoginPageState loginPageState;
+
+  setUp(() {
+    loginPageState = LoginPageState();
+  });
+
+  bool validarEmail(String email) {
+    // Regex simples para verificar o formato do email
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return regex.hasMatch(email);
+  }
+
   testWidgets(
     'deve enontrar o campo de email e inserir texto',
     (WidgetTester tester) async {
@@ -11,9 +23,10 @@ void main() {
       // Aqui você pode implementar o teste de UI relacionado à página de login
       //redenrizar a tela de login
       await tester.pumpWidget(MaterialApp(home: LoginPage()));
-    
+
       // Encontrar o campo de e-mail através de uma chave
-      final emailField = find.byKey(Key('emailField')); // Certifique-se de que o TextFormField do e-mail na sua tela de login tenha essa chave
+      final emailField = find.byKey(Key(
+          'emailField')); // Certifique-se de que o TextFormField do e-mail na sua tela de login tenha essa chave
 
       // Verificar se o campo de e-mail está presente na tela
       expect(emailField, findsOneWidget);
@@ -169,12 +182,114 @@ void main() {
     expect(passwordKey, findsOneWidget);
   });
 
+  testWidgets('Empty email shows error message', (WidgetTester tester) async {
+    // Build the widget
+    await tester.pumpWidget(const MaterialApp(home: LoginPage()));
 
-  // test(
-  //   'Deve confirmar que o botão de login aparece na tela corretamente',
-  //   () {
-  //     final app = MaterialApp(home: LoginPage());
-  //     expect(find.byKey(Key('loginButton')), findsOneWidget);
-  //   }
-  // );
+    // Find the email field and login button
+    final emailField = find.byKey(const Key('emailField'));
+    final loginButton = find.byKey(const Key('loginButton'));
+
+    // Try to submit the form with an empty email
+    await tester.tap(loginButton);
+    await tester.pump();
+
+    // Check if the error message appears
+    expect(find.text('Por favor insira seu e-mail'), findsOneWidget);
+  });
+
+  test('Email validation returns error if email is empty', () {
+    final result = loginPageState.emailRegExp.hasMatch('');
+    expect(result, false);
+  });
+
+  test('Email validation returns error if email is invalid', () {
+    final result = loginPageState.emailRegExp.hasMatch('invalidemail');
+    expect(result, false);
+  });
+
+  test('Email validation passes if email is valid', () {
+    final result = loginPageState.emailRegExp.hasMatch('test@example.com');
+    expect(result, true);
+  });
+
+  testWidgets('Testando validação de email inválido',
+      (WidgetTester tester) async {
+    // Constrói a tela de login
+    await tester.pumpWidget(const MaterialApp(home: LoginPage()));
+
+    // Localiza o campo de email
+    final emailField = find.byKey(const Key('emailField'));
+    final loginButton = find.byKey(const Key('loginButton'));
+
+    // Verifica se o widget está na árvore
+    expect(emailField, findsOneWidget);
+
+    // Digita um email inválido
+    await tester.enterText(emailField, 'emailinvalido');
+
+    // Tenta fazer login
+    await tester.tap(loginButton);
+    await tester.pump(); // Atualiza a interface após o clique
+
+    // Verifica se a mensagem de erro aparece
+    expect(find.text('Por favor, insira um e-mail válido'), findsOneWidget);
+  });
+
+  testWidgets('Testando validação de senha curta', (WidgetTester tester) async {
+    // Constrói a tela de login
+    await tester.pumpWidget(const MaterialApp(home: LoginPage()));
+
+    // Localiza o campo de senha
+    final passwordField = find.byKey(const Key('passwordField'));
+    final loginButton = find.byKey(const Key('loginButton'));
+
+    // Verifica se o widget está na árvore
+    expect(passwordField, findsOneWidget);
+
+    // Digita uma senha curta
+    await tester.enterText(passwordField, '123');
+
+    // Tenta fazer login
+    await tester.tap(loginButton);
+    await tester.pump(); // Atualiza a interface após o clique
+
+    // Verifica se a mensagem de erro aparece
+    expect(find.text('A senha é muito curta'), findsOneWidget);
+  });
+
+  testWidgets('Testando validação de email e senha válidos',
+      (WidgetTester tester) async {
+    // Constrói a tela de login
+    await tester.pumpWidget(const MaterialApp(home: LoginPage()));
+
+    // Localiza os campos de email e senha
+    final emailField = find.byKey(const Key('emailField'));
+    final passwordField = find.byKey(const Key('passwordField'));
+    final loginButton = find.byKey(const Key('loginButton'));
+
+    // Digita um email e senha válidos
+    await tester.enterText(emailField, 'teste@email.com');
+    await tester.enterText(passwordField, 'senha1234');
+
+    // Tenta fazer login
+    await tester.tap(loginButton);
+    await tester.pump(); // Atualiza a interface após o clique
+
+    // Verifica se as mensagens de erro não aparecem
+    expect(find.text('Por favor, insira um e-mail válido'), findsNothing);
+    expect(find.text('A senha é muito curta'), findsNothing);
+  });
+
+  test('Deve retornar false para email vazio', () {
+    final resultado = validarEmail('');
+    expect(resultado, false);
+  });
+
+  test('Deve retornar false para email inválido', () {
+    final resultado = validarEmail('emailinvalido');
+    expect(resultado, false);
+  });
+
+  
 }
