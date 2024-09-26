@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:marquei/src/catalog/presentation/add_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:integration_test/integration_test.dart';
 
 void main() {
+
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
   group('AddService Widget Tests', () {
     late SharedPreferences prefs;
 
