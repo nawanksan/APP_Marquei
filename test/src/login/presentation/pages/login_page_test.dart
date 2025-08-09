@@ -187,7 +187,7 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: LoginPage()));
 
     // Find the email field and login button
-    final emailField = find.byKey(const Key('emailField'));
+    // final emailField = find.byKey(const Key('emailField'));
     final loginButton = find.byKey(const Key('loginButton'));
 
     // Try to submit the form with an empty email

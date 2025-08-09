@@ -27,39 +27,45 @@ class CatalogScreenState extends State<CatalogScreen> with RouteAware {
   }
 
   Future<void> fetchProfessionalServices() async {
-    String? token = await getToken();
+  // Simula delay de carregamento, se quiser
+  await Future.delayed(Duration(seconds: 1));
 
-    if (token != null) {
-      final url =
-          Uri.parse('https://api.marquei.pro/api/services/professional/me/');
+  // Lista local simulando os serviços do profissional
+  List<Map<String, dynamic>> servicosLocais = [
+    {
+      "name": "Corte de Cabelo",
+      "description": "Corte masculino clássico",
+      "value": 30.0,
+      "duration": "00:30:00",
+      "photo": "assets/images/corte_cabelo.png",
+      "category": "Cabelo",
+    },
+    {
+      "name": "Barba",
+      "description": "Aparar e modelar barba",
+      "value": 20.0,
+      "duration": "00:15:00",
+      "photo": "assets/images/barba.png",
+      "category": "Barba",
+    },
+    {
+      "name": "Manicure",
+      "description": "Manicure básica",
+      "value": 25.0,
+      "duration": "00:45:00",
+      "photo": "assets/images/manicure.png",
+      "category": "Unhas",
+    },
+  ];
 
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Converte a resposta para um Map
-        final responseBody = jsonDecode(response.body);
-        // print(response.body);
-        if (mounted) {
-          setState(() {
-            // Acessa a lista de resultados dentro de 'results'
-            servicos =
-                responseBody['results']; // 'results' contém a lista de serviços
-            isLoading = false;
-          });
-        }
-      } else {
-        print('Erro ao carregar os serviços. Status: ${response.statusCode}');
-      }
-    } else {
-      print('Token não encontrado');
-    }
+  if (mounted) {
+    setState(() {
+      servicos = servicosLocais;
+      isLoading = false;
+    });
   }
+}
+
 
   Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

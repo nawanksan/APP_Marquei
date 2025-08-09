@@ -32,8 +32,41 @@ class HomePageState extends State<HomePage> {
     try {
       final fetchedPerfil = await getUserProfile();
       print(fetchedPerfil);
-      final fetchedEstatisticas = await fetchProfessionalStatistics() ?? {};
-      final fetchedAgendamentos = await fetchProfessionalAgendamentos() ?? [];
+
+      // Usar dados locais mockados no lugar de buscar na API
+      final fetchedEstatisticas = await fetchProfessionalStatistics() ??
+          {
+            "schedules_today": 0,
+            "clients": 0,
+            "invoicing": 0.0,
+          };
+
+      final fetchedAgendamentos = await fetchProfessionalAgendamentos() ??
+          [
+            {
+              "id": 1,
+              "date": "2025/08/10",
+              "hour": "14:00",
+              "status": "confirmado",
+              "value": 50.0,
+              "services_total_time": "00:30:00",
+              "services": [
+                {
+                  "name": "Corte de cabelo",
+                  "description": "Corte masculino",
+                  "value": 50.0,
+                  "duration": "00:30:00",
+                  "photo": "assets/images/corte_cabelo.png",
+                  "category": "Cabelo",
+                }
+              ],
+              "client": {
+                "first_name": "João",
+                "last_name": "Silva",
+              },
+              "name_client": "João Silva",
+            }
+          ];
 
       setState(() {
         perfil = fetchedPerfil;
@@ -41,80 +74,30 @@ class HomePageState extends State<HomePage> {
         agendamentos = fetchedAgendamentos;
       });
     } catch (error) {
-      // Lidar com o erro, exibir mensagem de falha, etc.
+      print("Erro ao inicializar perfil: $error");
     }
   }
 
-  // Recupera o perfil do SharedPreferences
+// Mock: retorna perfil salvo no SharedPreferences (igual você já tem)
   Future<Map<String, dynamic>?> getUserProfile() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? perfilJson = prefs.getString('user_profile');
-
     if (perfilJson != null) {
       return jsonDecode(perfilJson);
     }
-
     return null;
   }
 
+// Mock local, sem usar API
   Future<List<dynamic>?> fetchProfessionalAgendamentos() async {
-    String? token = await getToken();
-
-    if (token != null) {
-      final url =
-          Uri.parse('https://api.marquei.pro/api/scheduling/professional/');
-
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-
-        return responseBody['results'];
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
+    // Simula delay
+    await Future.delayed(Duration(milliseconds: 500));
+    // Retorna null para usar o valor padrão no initUserProfile()
+    return null;
   }
 
-  Future<Map<String, dynamic>?> fetchProfessionalStatistics() async {
-    String? token = await getToken();
-
-    if (token != null) {
-      final url =
-          Uri.parse('https://api.marquei.pro/api/professionals/statistics/');
-
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body) as Map<String, dynamic>?;
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-  Future<String?> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
-  }
-
-  Future<void> _refresh() async {
+// Mock local, sem usar API
+   Future<void> _refresh() async {
     await initUserProfile();
   }
 
@@ -278,25 +261,6 @@ class HomePageState extends State<HomePage> {
                                                                         .w700,
                                                               ),
                                                             ),
-                                                            Text(
-                                                              getMonthName(
-                                                                  agendamentos![
-                                                                              index]
-                                                                          [
-                                                                          'date']
-                                                                      .split(
-                                                                          '/')[1]),
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 16,
-                                                                color: Color(
-                                                                    0xFF000000),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                height: 1,
-                                                              ),
-                                                            )
                                                           ],
                                                         ),
                                                       ),
@@ -655,4 +619,6 @@ class HomePageState extends State<HomePage> {
   String formatReal(double value) {
     return 'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
   }
+  
+  fetchProfessionalStatistics() {}
 }

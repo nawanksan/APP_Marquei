@@ -155,7 +155,7 @@ class LoginPageState extends State<LoginPage> {
                                 color: Color(0xFF0053CC),
                               )
                             : ElevatedButton(
-                              key: Key('loginButton'),
+                                key: Key('loginButton'),
                                 //DropdownButtonFormField
                                 style: ButtonStyle(
                                     backgroundColor:
@@ -279,44 +279,79 @@ class LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    var url = Uri.parse('https://api.marquei.pro/api/auth/token/');
+    // Usuário local definido manualmente
+    const String localEmail = "teste@teste.com";
+    const String localSenha = "12345678";
 
-    var response = await http.post(
-      url,
-      body: json.encode({
-        "email": _emailController.text,
-        "password": _passwordController.text,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
+    // var url = Uri.parse('https://api.marquei.pro/api/auth/token/');
+
+    // var response = await http.post(
+    //   url,
+    //   body: json.encode({
+    //     "email": _emailController.text,
+    //     "password": _passwordController.text,
+    //   }),
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // );
 
     // print(response.body);
 
-    if (response.statusCode == 200) {
-      await _sharedPreferences.setString(
-          'token', "Bearer ${jsonDecode(response.body)['token']}");
+    // if (response.statusCode == 200) {
+    //   await _sharedPreferences.setString(
+    //       'token', "Bearer ${jsonDecode(response.body)['token']}");
 
-      await _getPerfil();
+    //   await _getPerfil();
+
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+
+    //   print('logado');
+    //   return true;
+    // } else {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+
+    //   print('dados invalidos');
+    //   return false;
+    // }
+    if (_emailController.text == localEmail &&
+        _passwordController.text == localSenha) {
+      // Salva um token fake no SharedPreferences
+      await _sharedPreferences.setString(
+          'token', "Bearer fake_local_token_123");
+
+      // Aqui você pode criar também um perfil local para salvar
+      Map<String, dynamic> perfilFake = {
+        "first_name": "Usuário",
+        "last_name": "Local",
+        "email": localEmail,
+      };
+      await _sharedPreferences.setString(
+        'user_profile',
+        jsonEncode(perfilFake),
+      );
 
       setState(() {
         _isLoading = false;
       });
 
-      print('logado');
+      print('Logado localmente');
       return true;
     } else {
       setState(() {
         _isLoading = false;
       });
 
-      print('dados invalidos');
+      print('Dados inválidos');
       return false;
     }
   }
 
-  //função que busca os dados do usuario na api pelo token
+  // função que busca os dados do usuario na api pelo token
   Future<void> _getPerfil() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? token = sharedPreferences.getString('token');

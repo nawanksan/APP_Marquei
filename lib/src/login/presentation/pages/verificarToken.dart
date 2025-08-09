@@ -51,26 +51,21 @@ class _VerificarTokenState extends State<VerificarToken> {
     return sharedPreferences.getString('token') != null;
   }
 
+  // Método modificado para carregar perfil local fixo
   Future<void> _getPerfil() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String? token = sharedPreferences.getString('token');
-    if (token != null) {
-      var url = Uri.https('api.marquei.pro', '/api/professionals/me/');
 
-      Map<String, String> headers = {
-        'Authorization': token,
-      };
+    // Exemplo de perfil local fixo:
+    Map<String, dynamic> perfilLocal = {
+      "first_name": "Usuário",
+      "last_name": "Local",
+      "email": "teste@teste.com",
+      "phone": "123456789",
+      // Você pode adicionar mais campos conforme seu app precisar
+    };
 
-      var response = await http.get(url, headers: headers);
-
-      if (response.statusCode == 200) {
-        Map<String, dynamic> perfilMap = json.decode(response.body);
-
-        await _saveUserProfile(perfilMap);
-      } else {
-        // Trate erros de resposta HTTP, se necessário.
-      }
-    }
+    // Salva o perfil local no SharedPreferences
+    await _saveUserProfile(perfilLocal);
   }
 
   Future<void> _saveUserProfile(Map<String, dynamic> perfilMap) async {
@@ -79,3 +74,4 @@ class _VerificarTokenState extends State<VerificarToken> {
     await prefs.setString('user_profile', perfilJson);
   }
 }
+
