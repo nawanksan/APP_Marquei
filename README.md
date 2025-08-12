@@ -6,6 +6,9 @@ O **Marquei** é um aplicativo desenvolvido em **Flutter** para facilitar o agen
 Com ele, profissionais podem gerenciar seus clientes, horários e serviços, enquanto usuários podem agendar atendimentos de forma prática e rápida.
 
 ---
+É necessário ter o Flutter SDK instalado e configurado.
+Instalação: https://flutter.dev/docs/get-started/install
+---
 
 ## ✨ Funcionalidades
 
@@ -52,4 +55,6 @@ flutter run
 - email: teste@teste.com
 - senha: 12345678
 ---
-
+## 📄 Licença
+Este projeto foi criado para estudos e uso pessoal.
+Contribuições são bem-vindas! 🎯
